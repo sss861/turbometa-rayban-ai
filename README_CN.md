@@ -34,9 +34,29 @@
   </tr>
 </table>
 
+## 🎬 视频演示
+
+[![视频演示](https://img.shields.io/badge/Bilibili-演示视频-00A1D6?style=for-the-badge&logo=bilibili)](https://www.bilibili.com/video/BV1aTqSBHEqN)
+
+👉 [在 Bilibili 观看](https://www.bilibili.com/video/BV1aTqSBHEqN)
+
 ## 📥 下载安装
 
 > **无需上架应用商店** - 直接下载安装
+
+### ⚠️ 重要：请先开启开发者模式！
+
+使用 TurboMeta 前，**必须**在 Meta AI App 中开启开发者模式：
+
+1. 打开手机上的 **Meta AI App**
+2. 进入 **设置** → **应用信息**
+3. 找到 **版本号**
+4. **快速连续点击版本号 5 次**
+5. 会出现"开发者模式已开启"的提示
+
+> 不开启开发者模式，跳转 Meta AI App 时会提示异常！
+
+---
 
 ### 📱 Android（推荐）
 

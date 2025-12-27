@@ -34,9 +34,29 @@
   </tr>
 </table>
 
+## 🎬 Video Demo
+
+[![Video Demo](https://img.shields.io/badge/Bilibili-Demo-00A1D6?style=for-the-badge&logo=bilibili)](https://www.bilibili.com/video/BV1aTqSBHEqN)
+
+👉 [Watch on Bilibili](https://www.bilibili.com/video/BV1aTqSBHEqN)
+
 ## 📥 Download
 
 > **No App Store / Google Play** - Install directly using methods below
+
+### ⚠️ Important: Enable Developer Mode First!
+
+Before using TurboMeta, you **MUST** enable developer mode in Meta AI App:
+
+1. Open **Meta AI App** on your phone
+2. Go to **Settings** → **App Info**
+3. Find **Version Number**
+4. **Tap the version number 5 times rapidly**
+5. You'll see "Developer mode enabled" message
+
+> Without developer mode, the app will show an error when redirecting to Meta AI App!
+
+---
 
 ### 📱 Android (Recommended)
 
