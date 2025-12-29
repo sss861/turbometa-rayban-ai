@@ -113,6 +113,35 @@
 
 **第五步**：打开 TurboMeta，在设置中配置你的阿里云 API Key 👉 [查看配置教程](#api-key-config)
 
+---
+
+<details>
+<summary>🔋 <b>Ray-Ban Meta 电池升级服务</b>（点击展开）</summary>
+
+<br/>
+
+> 💡 **Gen1 升级 Gen2 电池，续航翻倍！**
+
+将 Ray-Ban Meta 一代电池更换为二代大容量电池，续航时间提升 2 倍。
+
+<table>
+  <tr>
+    <td><img src="./ad/电池更换计划.jpg" width="200"/></td>
+    <td><img src="./ad/更换后的图片.jpg" width="200"/></td>
+  </tr>
+</table>
+
+| 项目 | 价格 |
+|------|------|
+| 原价 | ~~¥299~~ |
+| **Turbo 推荐价** | **¥249** |
+
+📱 **联系方式**：微信 `lifesux`，备注「Turbo推荐」享优惠价
+
+</details>
+
+---
+
 ## 📖 简介
 
 TurboMeta 是专为 RayBan Meta 智能眼镜打造的全模态AI助手，集成了阿里云通义千问多模态大模型，实现了：
