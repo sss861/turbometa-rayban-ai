@@ -115,7 +115,7 @@ Before using TurboMeta, you **MUST** enable developer mode in Meta AI App:
 
 ---
 
-### 🔋 Ray-Ban Meta Battery Upgrade & Repair Service
+### 🔋 Ray-Ban Meta Battery Upgrade & Repair Service <sup>`📢 Ad`</sup>
 
 > 🇨🇳 **For Users in China**
 
