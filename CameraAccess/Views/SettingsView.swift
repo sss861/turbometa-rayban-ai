@@ -20,6 +20,10 @@ struct SettingsView: View {
     @State private var showQualitySettings = false
     @State private var showLiveAIProviderSettings = false
     @State private var showGoogleAPIKeySettings = false
+    @State private var showQuickVisionSettings = false
+    @State private var showLiveAISettings = false
+    @ObservedObject var quickVisionModeManager = QuickVisionModeManager.shared
+    @ObservedObject var liveAIModeManager = LiveAIModeManager.shared
     @State private var selectedModel = "qwen3-omni-flash-realtime"
     @State private var selectedLanguage = "zh-CN" // 默认中文
     @State private var selectedQuality = UserDefaults.standard.string(forKey: "video_quality") ?? "medium"
@@ -195,6 +199,25 @@ struct SettingsView: View {
                                 .foregroundColor(AppColors.textTertiary)
                         }
                     }
+
+                    // Quick Vision Settings
+                    Button {
+                        showQuickVisionSettings = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "eye.circle.fill")
+                                .foregroundColor(AppColors.quickVision)
+                            Text("quickvision.settings".localized)
+                                .foregroundColor(AppColors.textPrimary)
+                            Spacer()
+                            Text(quickVisionModeManager.currentMode.displayName)
+                                .font(AppTypography.caption)
+                                .foregroundColor(AppColors.textSecondary)
+                            Image(systemName: "chevron.right")
+                                .font(AppTypography.caption)
+                                .foregroundColor(AppColors.textTertiary)
+                        }
+                    }
                 } header: {
                     Text("settings.ai".localized)
                 }
@@ -240,13 +263,32 @@ struct SettingsView: View {
                             }
                         }
                     }
+
+                    // Live AI Mode Settings
+                    Button {
+                        showLiveAISettings = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "brain.head.profile")
+                                .foregroundColor(AppColors.liveAI)
+                            Text("liveai.settings".localized)
+                                .foregroundColor(AppColors.textPrimary)
+                            Spacer()
+                            Text(liveAIModeManager.currentMode.displayName)
+                                .font(AppTypography.caption)
+                                .foregroundColor(AppColors.textSecondary)
+                            Image(systemName: "chevron.right")
+                                .font(AppTypography.caption)
+                                .foregroundColor(AppColors.textTertiary)
+                        }
+                    }
                 } header: {
                     Text("settings.liveai".localized)
                 }
 
                 // 关于
                 Section {
-                    InfoRow(title: "settings.version".localized, value: "1.3.0")
+                    InfoRow(title: "settings.version".localized, value: "1.5.0")
                     InfoRow(title: "settings.sdkversion".localized, value: "0.3.0")
                 } header: {
                     Text("settings.about".localized)
@@ -297,6 +339,12 @@ struct SettingsView: View {
                 if !isShowing {
                     refreshAPIKeyStatus()
                 }
+            }
+            .sheet(isPresented: $showQuickVisionSettings) {
+                QuickVisionSettingsView()
+            }
+            .sheet(isPresented: $showLiveAISettings) {
+                LiveAISettingsView()
             }
             .onAppear {
                 // 视图出现时刷新 API Key 状态

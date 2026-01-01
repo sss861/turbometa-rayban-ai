@@ -103,9 +103,16 @@ struct QuickVisionView: View {
 
     private var videoPreviewSection: some View {
         ZStack {
-            // 优先显示拍摄的照片，其次显示视频流
-            if let photo = streamViewModel.capturedPhoto {
-                // 显示拍摄的照片
+            // 优先显示 QuickVisionManager 保存的照片（不会因流停止而清除）
+            // 其次显示 streamViewModel 的照片，最后显示视频流
+            if let photo = quickVisionManager.lastImage {
+                // 显示 QuickVisionManager 保存的照片
+                Image(uiImage: photo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(AppCornerRadius.lg)
+            } else if let photo = streamViewModel.capturedPhoto {
+                // 显示 streamViewModel 的照片
                 Image(uiImage: photo)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -154,7 +161,7 @@ struct QuickVisionView: View {
             }
 
             // 处理中遮罩（仅在有图片时显示）
-            if quickVisionManager.isProcessing && (streamViewModel.capturedPhoto != nil || streamViewModel.currentVideoFrame != nil) {
+            if quickVisionManager.isProcessing && (quickVisionManager.lastImage != nil || streamViewModel.capturedPhoto != nil || streamViewModel.currentVideoFrame != nil) {
                 RoundedRectangle(cornerRadius: AppCornerRadius.lg)
                     .fill(Color.black.opacity(0.6))
                     .overlay {

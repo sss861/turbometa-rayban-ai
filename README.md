@@ -24,21 +24,27 @@
 
 ---
 
-## 🎉 重磅更新 v1.4.0
+## 🎉 重磅更新 v1.5.0
 
 <div align="center">
 
-### 🎬 RTMP 直播推流 - 支持全平台直播！
+### 🧠 Live AI 多模式 + Quick Vision 多模式
 
-**将 Ray-Ban Meta 眼镜的第一人称视角推流到 YouTube、Twitch、B站、抖音、TikTok、Facebook Live 等任意直播平台！**
+**博物馆讲解、盲人辅助、阅读朗读、实时翻译 - 一副眼镜，多种场景！**
 
-✅ **iOS v1.4.0** | ✅ **Android v1.4.0**
+✅ **iOS v1.5.0** | 🚧 **Android 稍后更新**
 
 ☕ **喜欢这个项目？** [**请我喝杯咖啡**](#-请我喝杯咖啡) 支持开发！
 
 </div>
 
-### 🆕 核心功能
+### 🆕 v1.5 新功能
+
+- 🧠 **Live AI 多模式**：博物馆模式、盲人模式、阅读模式、翻译模式、自定义提示词
+- 👁️ **Quick Vision 多模式**：健康识图、百科模式、阅读模式、翻译模式
+- 🗣️ **Siri 快捷指令**：语音唤醒 Quick Vision 和 Live AI，支持"实时对话"唤醒词
+
+### 🎯 核心功能
 
 - 🎬 **RTMP 直播推流**：支持推流到任意 RTMP 平台，YouTube、Twitch、B站、抖音、TikTok、Facebook Live 等
 - 👁️ **Quick Vision 快速识图**：Siri 语音唤醒，无需解锁手机即可识别眼前物体

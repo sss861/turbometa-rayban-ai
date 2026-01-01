@@ -70,7 +70,7 @@ class OmniRealtimeViewModel: ObservableObject {
                 print("✅ [OmniVM] 收到第一次音频发送回调，启用图片发送")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self?.isImageSendingEnabled = true
-                    print("📸 [OmniVM] 图片发送已启用，等待用户语音触发")
+                    print("📸 [OmniVM] 图片发送已启用（语音触发模式）")
                 }
             }
         }
@@ -155,7 +155,7 @@ class OmniRealtimeViewModel: ObservableObject {
                 print("✅ [GeminiVM] 收到第一次音频发送回调，启用图片发送")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self?.isImageSendingEnabled = true
-                    print("📸 [GeminiVM] 图片发送已启用，等待用户语音触发")
+                    print("📸 [GeminiVM] 图片发送已启用（语音触发模式）")
                 }
             }
         }

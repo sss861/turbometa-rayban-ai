@@ -255,7 +255,9 @@ class TTSService: NSObject, ObservableObject {
                    let output = json["output"] as? [String: Any],
                    let audio = output["audio"] as? [String: Any],
                    let audioString = audio["data"] as? String,
-                   let audioData = Data(base64Encoded: audioString) {
+                   !audioString.isEmpty,
+                   let audioData = Data(base64Encoded: audioString),
+                   !audioData.isEmpty {
                     chunkCount += 1
                     totalBytes += audioData.count
                     if chunkCount == 1 {
@@ -278,6 +280,11 @@ class TTSService: NSObject, ObservableObject {
     }
 
     private func playAudioChunk(_ audioData: Data) {
+        // 跳过空数据
+        guard !audioData.isEmpty else {
+            return
+        }
+
         guard let playerNode = playerNode,
               let playbackFormat = playbackFormat else {
             print("⚠️ [TTS] playerNode 或 playbackFormat 未初始化")
@@ -285,7 +292,7 @@ class TTSService: NSObject, ObservableObject {
         }
 
         guard let pcmBuffer = createPCMBuffer(from: audioData, format: playbackFormat) else {
-            print("⚠️ [TTS] 无法创建 PCM buffer")
+            print("⚠️ [TTS] 无法创建 PCM buffer, audioData.count=\(audioData.count)")
             return
         }
 
@@ -307,10 +314,18 @@ class TTSService: NSObject, ObservableObject {
     private func createPCMBuffer(from data: Data, format: AVAudioFormat) -> AVAudioPCMBuffer? {
         // 服务器发送的是 PCM16 格式，每帧 2 字节
         let frameCount = data.count / 2
-        guard frameCount > 0 else { return nil }
+        guard frameCount > 0 else {
+            print("⚠️ [TTS] createPCMBuffer: frameCount is 0, data.count=\(data.count)")
+            return nil
+        }
 
-        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(frameCount)),
-              let channelData = buffer.floatChannelData else {
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(frameCount)) else {
+            print("⚠️ [TTS] createPCMBuffer: Failed to create AVAudioPCMBuffer, format=\(format), frameCount=\(frameCount)")
+            return nil
+        }
+
+        guard let channelData = buffer.floatChannelData else {
+            print("⚠️ [TTS] createPCMBuffer: floatChannelData is nil")
             return nil
         }
 

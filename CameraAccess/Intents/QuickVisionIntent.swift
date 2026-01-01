@@ -2,62 +2,130 @@
  * Quick Vision Intent
  * App Intent - 支持 Siri 和快捷指令触发快速识图
  *
- * 使用方式：
- * 1. Siri: "嘿 Siri，用 TurboMeta 识图"
- * 2. 快捷指令：添加 "TurboMeta 快速识图" 动作
- * 3. 锁屏快捷方式
+ * 支持的模式：
+ * - 默认模式：通用图像描述
+ * - 健康识图：分析食品健康程度
+ * - 盲人模式：为视障用户描述环境
+ * - 阅读模式：识别并朗读文字
+ * - 翻译模式：识别并翻译文字
+ * - 百科模式：百科知识介绍
+ * - 自定义：使用自定义提示词
  */
 
 import AppIntents
 import UIKit
 import SwiftUI
 
-// MARK: - Quick Vision Intent
+// MARK: - Quick Vision Intent (Default Mode)
 
 @available(iOS 16.0, *)
 struct QuickVisionIntent: AppIntent {
     static var title: LocalizedStringResource = "快速识图"
     static var description = IntentDescription("使用 Ray-Ban Meta 眼镜拍照并识别图像内容")
-
-    // 尝试后台运行（但 SDK 可能需要前台）
-    // 设为 false 可以在锁屏时尝试执行，但视频流可能受限
     static var openAppWhenRun: Bool = false
 
-    // Intent 参数（可选）
     @Parameter(title: "自定义提示")
     var customPrompt: String?
 
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {
-        print("🚀 [QuickVisionIntent] Intent triggered (background mode)")
-
-        // 检查 QuickVisionManager 是否已初始化
         let manager = QuickVisionManager.shared
+        await manager.performQuickVisionWithMode(.standard, customPrompt: customPrompt)
+        return formatResult(manager)
+    }
+}
 
-        // 如果 streamViewModel 没有设置，说明 App 未完全初始化
-        // 此时需要打开 App
-        if manager.streamViewModel == nil {
-            print("⚠️ [QuickVisionIntent] App not initialized, sending notification")
-            // 发送通知，让 App 打开并执行快速识图
-            NotificationCenter.default.post(
-                name: .quickVisionTriggered,
-                object: nil,
-                userInfo: ["customPrompt": customPrompt as Any]
-            )
-            return .result(dialog: "正在启动快速识图，请稍候...")
-        }
+// MARK: - Health Mode Intent
 
-        // App 已初始化，直接执行
-        print("🚀 [QuickVisionIntent] App initialized, executing directly")
-        await manager.performQuickVisionFromIntent(customPrompt: customPrompt)
+@available(iOS 16.0, *)
+struct QuickVisionHealthIntent: AppIntent {
+    static var title: LocalizedStringResource = "健康识图"
+    static var description = IntentDescription("分析食品/饮料的健康程度")
+    static var openAppWhenRun: Bool = false
 
-        if let result = manager.lastResult {
-            return .result(dialog: "识别完成：\(result)")
-        } else if let error = manager.errorMessage {
-            return .result(dialog: "识别失败：\(error)")
-        } else {
-            return .result(dialog: "识别完成")
-        }
+    @MainActor
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        let manager = QuickVisionManager.shared
+        await manager.performQuickVisionWithMode(.health)
+        return formatResult(manager)
+    }
+}
+
+// MARK: - Blind Mode Intent
+
+@available(iOS 16.0, *)
+struct QuickVisionBlindIntent: AppIntent {
+    static var title: LocalizedStringResource = "环境描述"
+    static var description = IntentDescription("为视障用户详细描述眼前的环境")
+    static var openAppWhenRun: Bool = false
+
+    @MainActor
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        let manager = QuickVisionManager.shared
+        await manager.performQuickVisionWithMode(.blind)
+        return formatResult(manager)
+    }
+}
+
+// MARK: - Reading Mode Intent
+
+@available(iOS 16.0, *)
+struct QuickVisionReadingIntent: AppIntent {
+    static var title: LocalizedStringResource = "朗读文字"
+    static var description = IntentDescription("识别并朗读图片中的文字内容")
+    static var openAppWhenRun: Bool = false
+
+    @MainActor
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        let manager = QuickVisionManager.shared
+        await manager.performQuickVisionWithMode(.reading)
+        return formatResult(manager)
+    }
+}
+
+// MARK: - Translation Mode Intent
+
+@available(iOS 16.0, *)
+struct QuickVisionTranslateIntent: AppIntent {
+    static var title: LocalizedStringResource = "翻译文字"
+    static var description = IntentDescription("识别并翻译图片中的外语文字")
+    static var openAppWhenRun: Bool = false
+
+    @MainActor
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        let manager = QuickVisionManager.shared
+        await manager.performQuickVisionWithMode(.translate)
+        return formatResult(manager)
+    }
+}
+
+// MARK: - Encyclopedia Mode Intent
+
+@available(iOS 16.0, *)
+struct QuickVisionEncyclopediaIntent: AppIntent {
+    static var title: LocalizedStringResource = "百科识别"
+    static var description = IntentDescription("识别物体并提供百科知识介绍")
+    static var openAppWhenRun: Bool = false
+
+    @MainActor
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        let manager = QuickVisionManager.shared
+        await manager.performQuickVisionWithMode(.encyclopedia)
+        return formatResult(manager)
+    }
+}
+
+// MARK: - Helper Function
+
+@available(iOS 16.0, *)
+@MainActor
+private func formatResult(_ manager: QuickVisionManager) -> some IntentResult & ProvidesDialog {
+    if let result = manager.lastResult {
+        return .result(dialog: "识别完成：\(result)")
+    } else if let error = manager.errorMessage {
+        return .result(dialog: "识别失败：\(error)")
+    } else {
+        return .result(dialog: "识别完成")
     }
 }
 
@@ -66,17 +134,102 @@ struct QuickVisionIntent: AppIntent {
 @available(iOS 16.0, *)
 struct TurboMetaShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
+        // 默认识图
         AppShortcut(
             intent: QuickVisionIntent(),
             phrases: [
                 "用 \(.applicationName) 识图",
                 "用 \(.applicationName) 看看这是什么",
                 "\(.applicationName) 快速识图",
-                "\(.applicationName) 拍照识别",
-                "\(.applicationName) 帮我识别眼前的东西"
+                "\(.applicationName) 拍照识别"
             ],
             shortTitle: "快速识图",
             systemImageName: "eye.circle.fill"
+        )
+
+        // 健康识图
+        AppShortcut(
+            intent: QuickVisionHealthIntent(),
+            phrases: [
+                "用 \(.applicationName) 分析健康",
+                "\(.applicationName) 健康识图",
+                "\(.applicationName) 这个食物健康吗"
+            ],
+            shortTitle: "健康识图",
+            systemImageName: "heart.circle.fill"
+        )
+
+        // 盲人模式
+        AppShortcut(
+            intent: QuickVisionBlindIntent(),
+            phrases: [
+                "用 \(.applicationName) 描述环境",
+                "\(.applicationName) 看看周围有什么",
+                "\(.applicationName) 帮我看看前面"
+            ],
+            shortTitle: "环境描述",
+            systemImageName: "figure.walk.circle.fill"
+        )
+
+        // 阅读模式
+        AppShortcut(
+            intent: QuickVisionReadingIntent(),
+            phrases: [
+                "用 \(.applicationName) 朗读文字",
+                "\(.applicationName) 读一下这个",
+                "\(.applicationName) 帮我读文字"
+            ],
+            shortTitle: "朗读文字",
+            systemImageName: "text.viewfinder"
+        )
+
+        // 翻译模式
+        AppShortcut(
+            intent: QuickVisionTranslateIntent(),
+            phrases: [
+                "用 \(.applicationName) 翻译",
+                "\(.applicationName) 翻译这个",
+                "\(.applicationName) 这个是什么意思"
+            ],
+            shortTitle: "翻译文字",
+            systemImageName: "character.bubble.fill"
+        )
+
+        // 百科模式
+        AppShortcut(
+            intent: QuickVisionEncyclopediaIntent(),
+            phrases: [
+                "用 \(.applicationName) 介绍这个",
+                "\(.applicationName) 百科识别",
+                "\(.applicationName) 这是什么东西"
+            ],
+            shortTitle: "百科识别",
+            systemImageName: "books.vertical.circle.fill"
+        )
+
+        // 实时对话
+        AppShortcut(
+            intent: LiveAIIntent(),
+            phrases: [
+                "用 \(.applicationName) 实时对话",
+                "\(.applicationName) 实时对话",
+                "开始 \(.applicationName) 实时对话",
+                "\(.applicationName) 开始对话"
+            ],
+            shortTitle: "实时对话",
+            systemImageName: "brain.head.profile"
+        )
+
+        // 停止实时对话
+        AppShortcut(
+            intent: StopLiveAIIntent(),
+            phrases: [
+                "\(.applicationName) 停止实时对话",
+                "停止 \(.applicationName) 实时对话",
+                "\(.applicationName) 结束对话"
+            ],
+            shortTitle: "停止实时对话",
+            systemImageName: "stop.circle.fill"
         )
     }
 }
@@ -96,6 +249,8 @@ class QuickVisionManager: ObservableObject {
     @Published var isProcessing = false
     @Published var lastResult: String?
     @Published var errorMessage: String?
+    @Published var lastImage: UIImage?
+    @Published var lastMode: QuickVisionMode = .standard
 
     // 公开 streamViewModel 用于 Intent 检查初始化状态
     private(set) var streamViewModel: StreamSessionViewModel?
@@ -118,15 +273,16 @@ class QuickVisionManager: ObservableObject {
 
     @objc private func handleQuickVisionTrigger(_ notification: Notification) {
         let customPrompt = notification.userInfo?["customPrompt"] as? String
+        let modeString = notification.userInfo?["mode"] as? String
+        let mode = modeString.flatMap { QuickVisionMode(rawValue: $0) } ?? .standard
+
         Task { @MainActor in
-            // 从快捷指令触发时，完成后自动停止流
-            await performQuickVisionFromIntent(customPrompt: customPrompt)
+            await performQuickVisionWithMode(mode, customPrompt: customPrompt)
         }
     }
 
-    /// 执行快速识图
-    /// 流程：启动流 -> 拍照 -> 停止流 -> 识图 -> TTS播报
-    func performQuickVision(customPrompt: String? = nil) async {
+    /// 使用指定模式执行快速识图
+    func performQuickVisionWithMode(_ mode: QuickVisionMode, customPrompt: String? = nil) async {
         guard !isProcessing else {
             print("⚠️ [QuickVision] Already processing")
             return
@@ -141,8 +297,10 @@ class QuickVisionManager: ObservableObject {
         isProcessing = true
         errorMessage = nil
         lastResult = nil
+        lastImage = nil
+        lastMode = mode
 
-        // 获取 API Key（后面 TTS 也要用）
+        // 获取 API Key
         guard let apiKey = APIKeyManager.shared.getAPIKey(), !apiKey.isEmpty else {
             errorMessage = "请先在设置中配置 API Key"
             tts.speak("请先在设置中配置 API Key")
@@ -152,6 +310,9 @@ class QuickVisionManager: ObservableObject {
 
         // 播报开始
         tts.speak("正在识别", apiKey: apiKey)
+
+        // 获取提示词
+        let prompt = customPrompt ?? QuickVisionModeManager.shared.getPrompt(for: mode)
 
         do {
             // 0. 检查设备是否已连接
@@ -208,21 +369,27 @@ class QuickVisionManager: ObservableObject {
 
             print("📸 [QuickVision] Photo captured: \(photo.size.width)x\(photo.size.height)")
 
-            // 5. 预配置 TTS 音频会话（在停止流之前，避免会话冲突）
+            // 保存图片用于历史记录
+            lastImage = photo
+
+            // 5. 预配置 TTS 音频会话
             tts.prepareAudioSession()
 
-            // 6. 立即停止视频流（不再需要）
+            // 6. 立即停止视频流
             print("🛑 [QuickVision] Stopping stream after capture")
             await streamViewModel.stopSession()
 
-            // 7. 调用识图 API（使用开头获取的 apiKey）
+            // 7. 调用识图 API
             let service = QuickVisionService(apiKey: apiKey)
-            let result = try await service.analyzeImage(photo, customPrompt: customPrompt)
+            let result = try await service.analyzeImage(photo, customPrompt: prompt)
 
             // 8. 保存结果
             lastResult = result
 
-            // 9. TTS 播报结果
+            // 9. 保存到历史记录
+            saveToHistory(mode: mode, prompt: prompt, result: result, image: photo)
+
+            // 10. TTS 播报结果
             tts.speak(result, apiKey: apiKey)
 
             print("✅ [QuickVision] Complete: \(result)")
@@ -231,23 +398,37 @@ class QuickVisionManager: ObservableObject {
             errorMessage = error.localizedDescription
             print("❌ [QuickVision] QuickVisionError: \(error)")
             tts.speak(error.localizedDescription, apiKey: apiKey)
-            // 出错也要停止流
             await streamViewModel.stopSession()
         } catch {
             errorMessage = error.localizedDescription
             print("❌ [QuickVision] Error: \(error)")
             tts.speak("识别失败，\(error.localizedDescription)", apiKey: apiKey)
-            // 出错也要停止流
             await streamViewModel.stopSession()
         }
 
         isProcessing = false
     }
 
+    /// 执行快速识图（使用当前设置的模式）
+    func performQuickVision(customPrompt: String? = nil) async {
+        await performQuickVisionWithMode(QuickVisionModeManager.staticCurrentMode, customPrompt: customPrompt)
+    }
+
     /// 执行快速识图（从快捷指令/Siri 触发）
-    /// 与 performQuickVision 相同，流已在识别完成后停止
     func performQuickVisionFromIntent(customPrompt: String? = nil) async {
         await performQuickVision(customPrompt: customPrompt)
+    }
+
+    /// 保存识图结果到历史记录
+    private func saveToHistory(mode: QuickVisionMode, prompt: String, result: String, image: UIImage) {
+        let record = QuickVisionRecord(
+            mode: mode,
+            prompt: prompt,
+            result: result,
+            thumbnail: image
+        )
+        QuickVisionStorage.shared.saveRecord(record)
+        print("💾 [QuickVision] Record saved to history")
     }
 
     /// 停止视频流（在页面关闭时调用）
@@ -259,6 +440,13 @@ class QuickVisionManager: ObservableObject {
     func triggerQuickVision(customPrompt: String? = nil) {
         Task { @MainActor in
             await performQuickVision(customPrompt: customPrompt)
+        }
+    }
+
+    /// 手动触发指定模式的快速识图（从 UI 调用）
+    func triggerQuickVisionWithMode(_ mode: QuickVisionMode) {
+        Task { @MainActor in
+            await performQuickVisionWithMode(mode)
         }
     }
 }

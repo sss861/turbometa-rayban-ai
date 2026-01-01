@@ -20,15 +20,15 @@
 
 ---
 
-## 🎉 Major Update v1.4.0
+## 🎉 Major Update v1.5.0
 
 <div align="center">
 
-### 🎬 RTMP Live Streaming - Stream to Any Platform!
+### 🧠 Live AI Multi-Mode + Quick Vision Multi-Mode
 
-**Stream first-person view from Ray-Ban Meta glasses to YouTube, Twitch, Bilibili, Douyin, TikTok, Facebook Live, and more!**
+**Museum guide, accessibility assistant, reading mode, real-time translation - one pair of glasses, endless possibilities!**
 
-✅ **iOS v1.4.0** | ✅ **Android v1.4.0**
+✅ **iOS v1.5.0** | 🚧 **Android Coming Soon**
 
 ☕ **Enjoying this project?** [**Buy me a coffee**](https://buymeacoffee.com/turbo1123) to support development!
 
@@ -36,7 +36,13 @@
 
 > ☕ **Enjoying this project?** This is a passion project maintained in my spare time. If it's been helpful to you, consider [**buying me a coffee**](https://buymeacoffee.com/turbo1123) - it really helps keep the project going!
 
-### 🆕 Core Features
+### 🆕 v1.5 New Features
+
+- 🧠 **Live AI Multi-Mode**: Museum mode, Accessibility mode, Reading mode, Translation mode, Custom prompts
+- 👁️ **Quick Vision Multi-Mode**: Health analysis, Encyclopedia mode, Reading mode, Translation mode
+- 🗣️ **Siri Shortcuts**: Voice-activate Quick Vision and Live AI
+
+### 🎯 Core Features
 
 - 🎬 **RTMP Live Streaming**: Stream to any RTMP platform - YouTube, Twitch, Bilibili, Douyin, TikTok, Facebook Live, etc.
 - 👁️ **Quick Vision**: Siri voice activation - identify objects without unlocking your phone

@@ -9,6 +9,7 @@ struct TurboMetaHomeView: View {
     @ObservedObject var streamViewModel: StreamSessionViewModel
     @ObservedObject var wearablesViewModel: WearablesViewModel
     @StateObject private var quickVisionManager = QuickVisionManager.shared
+    @StateObject private var liveAIManager = LiveAIManager.shared
     let apiKey: String
 
     @State private var showLiveAI = false
@@ -136,6 +137,12 @@ struct TurboMetaHomeView: View {
         .onAppear {
             // 确保 QuickVisionManager 有 streamViewModel 引用
             quickVisionManager.setStreamViewModel(streamViewModel)
+            // 确保 LiveAIManager 有 streamViewModel 引用
+            liveAIManager.setStreamViewModel(streamViewModel)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .liveAITriggered)) { _ in
+            // 从快捷指令触发，自动打开 Live AI 界面
+            showLiveAI = true
         }
     }
 }

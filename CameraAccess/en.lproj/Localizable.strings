@@ -251,6 +251,75 @@
 "prompt.quickvision" = "You are a smart glasses AI assistant. Please describe the image content concisely, suitable for voice announcement.\n\nRequirements:\n1. Describe the main content in 1-2 sentences\n2. Use natural, conversational language\n3. Don't use too many punctuation marks\n4. Keep the total under 50 words\n5. Describe directly, don't say \"in the image\" or \"I see\"";
 "prompt.liveai" = "You are a RayBan Meta smart glasses AI assistant.\n\n[IMPORTANT] Always respond in English.\n\nKeep your answers concise and conversational, like chatting with a friend. The user is wearing glasses and can see their surroundings, provide quick and useful suggestions based on what they see. Be direct and to the point.";
 
+// MARK: - Quick Vision Modes
+"prompt.quickvision.health" = "Analyze the health aspects of this food/beverage. Provide scientific analysis from these angles:\n1. Nutritional balance\n2. Additives and preservatives\n3. Sugar/salt/fat content\n4. Potential health impacts\n5. Health recommendations\n\nUse concise, conversational language suitable for voice announcement, under 100 words.";
+"prompt.quickvision.blind" = "Describe the environment in detail for a visually impaired user, including:\n1. Objects and people around\n2. Approximate distances and directions\n3. Any obstacles or hazards\n4. Overall atmosphere (indoor/outdoor, lighting)\n5. Important details to note\n\nBe clear and specific, use directional words (ahead, left side), under 80 words.";
+"prompt.quickvision.reading" = "Identify and read aloud the text in the image. Requirements:\n1. Accurately identify all visible text\n2. Organize content in reading order\n3. If it's a menu/sign, mention the type\n4. If text is unclear, mention it\n\nRead the text content directly, no extra explanation needed.";
+"prompt.quickvision.translate" = "Identify the text in the image and translate it to {LANGUAGE}. Requirements:\n1. Accurately identify all visible text\n2. Translate accurately and naturally\n3. If there are multiple paragraphs, translate separately\n4. Just say the translation, no need to mention the original\n\nSuitable for voice announcement, under 100 words.";
+"prompt.quickvision.encyclopedia" = "Identify the object, building, artwork, or creature in the image and provide encyclopedia-style information. Include:\n1. Name and classification\n2. Historical background or origin\n3. Interesting facts\n4. Cultural significance\n\nBe like a museum guide, engaging and informative, suitable for voice announcement, under 100 words.";
+
+"quickvision.mode.standard" = "Standard Mode";
+"quickvision.mode.health" = "Health Analysis";
+"quickvision.mode.blind" = "Accessibility Mode";
+"quickvision.mode.reading" = "Reading Mode";
+"quickvision.mode.translate" = "Translation Mode";
+"quickvision.mode.encyclopedia" = "Encyclopedia Mode";
+"quickvision.mode.custom" = "Custom Prompt";
+
+"quickvision.mode.standard.desc" = "General image description";
+"quickvision.mode.health.desc" = "Analyze food health aspects";
+"quickvision.mode.blind.desc" = "Describe environment for accessibility";
+"quickvision.mode.reading.desc" = "Identify and read text";
+"quickvision.mode.translate.desc" = "Identify and translate text";
+"quickvision.mode.encyclopedia.desc" = "Encyclopedia information";
+"quickvision.mode.custom.desc" = "Use custom prompt";
+
+"quickvision.settings" = "Vision Settings";
+"quickvision.settings.mode" = "Vision Mode";
+"quickvision.settings.customprompt" = "Custom Prompt";
+"quickvision.settings.targetlanguage" = "Translation Target Language";
+"quickvision.settings.history" = "Vision History";
+"quickvision.history" = "Vision History";
+"quickvision.history.empty" = "No vision records";
+"quickvision.history.clear" = "Clear History";
+"quickvision.history.clear.confirm" = "Are you sure you want to clear all vision history?";
+"quickvision.today" = "Today";
+"quickvision.yesterday" = "Yesterday";
+"quickvision.custom.default" = "Please describe the image content concisely, suitable for voice announcement.";
+"quickvision.tab" = "Quick Vision";
+"quickvision.records.empty" = "No Vision Records";
+"quickvision.records.empty.hint" = "Records will appear here after using Quick Vision";
+
+// MARK: - Live AI Modes
+"liveai.mode.standard" = "Standard Mode";
+"liveai.mode.museum" = "Museum Mode";
+"liveai.mode.blind" = "Accessibility Mode";
+"liveai.mode.reading" = "Reading Mode";
+"liveai.mode.translate" = "Translation Mode";
+"liveai.mode.custom" = "Custom Prompt";
+
+"liveai.mode.standard.desc" = "Free conversation, see images on voice";
+"liveai.mode.museum.desc" = "Museum guide, explain exhibits";
+"liveai.mode.blind.desc" = "Describe environment for accessibility";
+"liveai.mode.reading.desc" = "Identify and read text aloud";
+"liveai.mode.translate.desc" = "Real-time translation of visible text";
+"liveai.mode.custom.desc" = "Use custom system prompt";
+
+"liveai.settings" = "Conversation Mode";
+"liveai.settings.mode" = "Conversation Mode";
+"liveai.settings.mode.footer" = "Different modes change AI behavior. Takes effect on reconnect.";
+"liveai.settings.customprompt" = "Custom System Prompt";
+"liveai.settings.customprompt.footer" = "Customize AI role and behavior. Takes effect on next connection.";
+"liveai.settings.targetlanguage" = "Translation Target Language";
+"liveai.custom.default" = "You are a helpful assistant. Answer questions concisely.";
+
+// Live AI Mode Prompts
+"prompt.liveai.standard" = "You are a RayBan Meta smart glasses AI assistant.\n\n[IMPORTANT] Always respond in English.\n\nKeep your answers concise and conversational, like chatting with a friend. The user is wearing glasses and can see their surroundings, provide quick and useful suggestions based on what they see. Be direct and to the point.";
+"prompt.liveai.museum" = "You are a professional museum guide AI assistant.\n\n[IMPORTANT] Always respond in English.\n\nWhen the user looks at an exhibit, provide:\n1. Name and basic information\n2. Historical background and cultural significance\n3. Interesting stories or facts\n4. Connections to other exhibits\n\nBe knowledgeable yet engaging, making the visit enjoyable.";
+"prompt.liveai.blind" = "You are a smart glasses assistant for visually impaired users.\n\n[IMPORTANT] Always respond in English.\n\nYour task is to help users understand their surroundings:\n1. Describe objects, people, and environment in detail\n2. Use clear directional words (ahead, left, right rear, etc.)\n3. Point out obstacles or hazards\n4. Read signs, menus, and other text\n5. Provide safe, practical navigation suggestions\n\nSpeak clearly and organized, prioritize the most important information.";
+"prompt.liveai.reading" = "You are a reading assistance AI.\n\n[IMPORTANT] Always respond in English.\n\nYour task is to help users read visible text:\n1. Accurately identify and read all visible text\n2. Organize content in correct reading order\n3. For documents, explain the structure\n4. For foreign languages, read then translate\n\nSpeak at moderate pace, articulate clearly, like a professional reader.";
+"prompt.liveai.translate" = "You are a real-time translation AI assistant.\n\n[IMPORTANT] Translation results must be in {LANGUAGE}.\n\nYour task is to help users understand foreign language content:\n1. Identify text in the view\n2. Translate to {LANGUAGE}\n3. For menus or signs, explain their purpose\n4. For technical terms, provide brief explanations\n\nTranslate accurately, naturally, and idiomatically.";
+
 // MARK: - RTMP Streaming
 "rtmp.title" = "RTMP Streaming";
 "rtmp.status.disconnected" = "Disconnected";

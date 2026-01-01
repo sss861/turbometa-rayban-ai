@@ -86,7 +86,7 @@ class QuickVisionService {
     /// 快速识图 - 返回简洁的语音描述
     /// - Parameters:
     ///   - image: 要识别的图片
-    ///   - customPrompt: 自定义提示词（可选）
+    ///   - customPrompt: 自定义提示词（可选，如果为 nil 则使用当前模式的提示词）
     /// - Returns: 简洁的描述文本，适合 TTS 播报
     func analyzeImage(_ image: UIImage, customPrompt: String? = nil) async throws -> String {
         // Convert image to base64
@@ -97,8 +97,8 @@ class QuickVisionService {
         let base64String = imageData.base64EncodedString()
         let dataURL = "data:image/jpeg;base64,\(base64String)"
 
-        // 使用本地化的提示词
-        let prompt = customPrompt ?? "prompt.quickvision".localized
+        // 使用自定义提示词、模式管理器的提示词、或默认提示词
+        let prompt = customPrompt ?? QuickVisionModeManager.staticPrompt
 
         // Create API request
         let request = ChatCompletionRequest(

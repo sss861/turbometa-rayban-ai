@@ -157,8 +157,8 @@ class GeminiLiveService: NSObject {
     private func configureSession() {
         guard !isSessionConfigured else { return }
 
-        // 根据当前语言设置获取提示词
-        let instructions = "prompt.liveai".localized
+        // 根据当前 Live AI 模式获取系统提示词
+        let instructions = LiveAIModeManager.staticSystemPrompt
 
         // Gemini Live API setup message
         let setupMessage: [String: Any] = [

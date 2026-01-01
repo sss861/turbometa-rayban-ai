@@ -185,7 +185,7 @@ class OmniRealtimeService: NSObject {
     private func configureSession() {
         // 根据当前语言设置获取语音和提示词
         let voice = LanguageManager.staticTtsVoice
-        let instructions = "prompt.liveai".localized
+        let instructions = LiveAIModeManager.staticSystemPrompt
 
         let sessionConfig: [String: Any] = [
             "event_id": generateEventId(),
