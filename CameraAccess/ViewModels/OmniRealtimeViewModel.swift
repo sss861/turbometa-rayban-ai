@@ -214,8 +214,7 @@ class OmniRealtimeViewModel: ObservableObject {
 
         geminiService.onAudioDone = { [weak self] in
             Task { @MainActor in
-                _ = self  // Silence unused warning
-                // Audio playback complete
+                self?.isSpeaking = false
             }
         }
 

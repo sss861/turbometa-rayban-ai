@@ -47,14 +47,13 @@ class TTSService: NSObject, ObservableObject {
         playerNode = AVAudioPlayerNode()
 
         guard let playbackEngine = playbackEngine,
-              let playerNode = playerNode,
-              let audioFormat = audioFormat else {
+              let playerNode = playerNode else {
             print("❌ [TTS] 无法初始化播放引擎")
             return
         }
 
         playbackEngine.attach(playerNode)
-        playbackEngine.connect(playerNode, to: playbackEngine.mainMixerNode, format: audioFormat)
+        playbackEngine.connect(playerNode, to: playbackEngine.mainMixerNode, format: nil)
 
         print("✅ [TTS] 播放引擎初始化完成: PCM16 @ 24kHz")
     }
@@ -70,6 +69,7 @@ class TTSService: NSObject, ObservableObject {
             // 只在需要时配置，避免与现有会话冲突
             // 使用和 OmniRealtimeService 完全一样的设置（不要 defaultToSpeaker）
             try audioSession.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetooth, .allowBluetoothA2DP])
+            try audioSession.setPreferredSampleRate(24000)
             try audioSession.setActive(true, options: [.notifyOthersOnDeactivation])
             print("✅ [TTS] Audio session 已配置")
         } catch {
@@ -81,6 +81,7 @@ class TTSService: NSObject, ObservableObject {
     private func startPlaybackEngine() {
         guard let playbackEngine = playbackEngine, !isPlaybackEngineRunning else { return }
 
+        configureAudioSession()
         do {
             try playbackEngine.start()
             playerNode?.play()

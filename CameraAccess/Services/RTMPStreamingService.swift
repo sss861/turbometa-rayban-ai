@@ -73,6 +73,8 @@ class RTMPStreamingService: NSObject, @unchecked Sendable {
     // Status monitoring task
     private var statusTask: Task<Void, Never>?
     private var streamStatusTask: Task<Void, Never>?
+    private var connectTask: Task<Void, Never>?
+    private var shutdownTask: Task<Void, Never>?
 
     // MARK: - Initialization
 
@@ -114,8 +116,9 @@ class RTMPStreamingService: NSObject, @unchecked Sendable {
         onStateChanged?(.connecting)
 
         // Create connection and stream
-        Task {
-            await setupAndConnect()
+        connectTask?.cancel()
+        connectTask = Task { [weak self] in
+            await self?.setupAndConnect()
         }
     }
 
@@ -125,23 +128,33 @@ class RTMPStreamingService: NSObject, @unchecked Sendable {
 
         isStreaming = false
 
-        // Cancel status monitoring tasks
-        statusTask?.cancel()
+        connectTask?.cancel()
+        connectTask = nil
+
+        let statusTaskToStop = statusTask
         statusTask = nil
-        streamStatusTask?.cancel()
+        statusTaskToStop?.cancel()
+
+        let streamStatusTaskToStop = streamStatusTask
         streamStatusTask = nil
+        streamStatusTaskToStop?.cancel()
 
-        Task {
-            if let stream = rtmpStream {
-                _ = try? await stream.close()
-            }
-            if let connection = rtmpConnection {
-                _ = try? await connection.close()
-            }
-        }
-
+        let streamToClose = rtmpStream
+        let connectionToClose = rtmpConnection
         rtmpStream = nil
         rtmpConnection = nil
+
+        shutdownTask?.cancel()
+        shutdownTask = Task.detached { [statusTaskToStop, streamStatusTaskToStop, streamToClose, connectionToClose] in
+            _ = await statusTaskToStop?.value
+            _ = await streamStatusTaskToStop?.value
+            if let streamToClose {
+                _ = try? await streamToClose.close()
+            }
+            if let connectionToClose {
+                _ = try? await connectionToClose.close()
+            }
+        }
 
         // Reset state
         totalFrames = 0

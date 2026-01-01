@@ -101,8 +101,7 @@ class OmniRealtimeService: NSObject {
         playerNode = AVAudioPlayerNode()
 
         guard let playbackEngine = playbackEngine,
-              let playerNode = playerNode,
-              let audioFormat = audioFormat else {
+              let playerNode = playerNode else {
             print("❌ [Omni] 无法初始化播放引擎")
             return
         }
@@ -111,7 +110,7 @@ class OmniRealtimeService: NSObject {
         playbackEngine.attach(playerNode)
 
         // Connect player node to output
-        playbackEngine.connect(playerNode, to: playbackEngine.mainMixerNode, format: audioFormat)
+        playbackEngine.connect(playerNode, to: playbackEngine.mainMixerNode, format: nil)
 
         print("✅ [Omni] 播放引擎初始化完成: PCM16 @ 24kHz")
     }

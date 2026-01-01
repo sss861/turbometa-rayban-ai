@@ -272,8 +272,8 @@ class RTMPStreamingViewModel: ObservableObject {
     private func startStatsTimer() {
         statsTimer?.invalidate()
         statsTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self, let start = self.startTime else { return }
             Task { @MainActor in
+                guard let self, let start = self.startTime else { return }
                 self.connectionTime = Date().timeIntervalSince(start)
             }
         }

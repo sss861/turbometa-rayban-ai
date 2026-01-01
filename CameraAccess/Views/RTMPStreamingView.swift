@@ -262,9 +262,11 @@ struct RTMPStreamingView: View {
 
         // Start feeding frames to RTMP when streaming
         frameTimer = Timer.scheduledTimer(withTimeInterval: 1.0 / 24.0, repeats: true) { _ in
-            if let frame = streamViewModel.currentVideoFrame {
-                let timestamp = Int64(Date().timeIntervalSince1970 * 1_000_000)
-                rtmpViewModel.feedFrame(frame, timestamp: timestamp)
+            Task { @MainActor in
+                if let frame = streamViewModel.currentVideoFrame {
+                    let timestamp = Int64(Date().timeIntervalSince1970 * 1_000_000)
+                    rtmpViewModel.feedFrame(frame, timestamp: timestamp)
+                }
             }
         }
     }

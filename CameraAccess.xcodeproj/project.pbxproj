@@ -14,6 +14,8 @@
 		4B69CCC32F050D4300D1D025 /* RTMPStreamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B69CCC22F050D4300D1D025 /* RTMPStreamingView.swift */; };
 		4B69CCC52F050D5200D1D025 /* RTMPStreamingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B69CCC42F050D5200D1D025 /* RTMPStreamingViewModel.swift */; };
 		4B69CCC72F050D5D00D1D025 /* RTMPStreamingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B69CCC62F050D5D00D1D025 /* RTMPStreamingService.swift */; };
+		4B69CCCA2F050E0000D1D025 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4B69CCC92F050E0000D1D025 /* HaishinKit */; };
+		4B69CCCC2F050E0000D1D025 /* RTMPHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4B69CCCB2F050E0000D1D025 /* RTMPHaishinKit */; };
 		4BA57AC32EF8227E002EC214 /* ConversationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA57AAC2EF8227E002EC214 /* ConversationDetailView.swift */; };
 		4BA57AC42EF8227E002EC214 /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA57AA32EF8227E002EC214 /* CircleButton.swift */; };
 		4BA57AC52EF8227E002EC214 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA57AA42EF8227E002EC214 /* CustomButton.swift */; };
@@ -68,8 +70,6 @@
 		8FD96B952E6F0F7D00F56AB1 /* MWDATCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8FD96B942E6F0F7D00F56AB1 /* MWDATCore */; };
 		8FD96B952E6F0F7D00F56AB2 /* MWDATCamera in Frameworks */ = {isa = PBXBuildFile; productRef = 8FD96B942E6F0F7D00F56AB2 /* MWDATCamera */; };
 		8FD96B952E6F0F7D00F56AB3 /* MWDATMockDevice in Frameworks */ = {isa = PBXBuildFile; productRef = 8FD96B942E6F0F7D00F56AB3 /* MWDATMockDevice */; };
-		4B69CCCA2F050E0000D1D025 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4B69CCC92F050E0000D1D025 /* HaishinKit */; };
-		4B69CCCC2F050E0000D1D025 /* RTMPHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4B69CCCB2F050E0000D1D025 /* RTMPHaishinKit */; };
 		A5C50340AFD334B459151AF1 /* QuickVisionIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568E19B82D2116C7FE3B1829 /* QuickVisionIntent.swift */; };
 		B3F7AF9C18583263BE4D96A1 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0080AFEB87FC4CF85E53FE97 /* LanguageManager.swift */; };
 		D83E4BD577765733E71A0068 /* QuickVisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B037E0156E90DE2314A9F47 /* QuickVisionView.swift */; };
@@ -457,7 +457,7 @@
 			mainGroup = 5A5A5A5A5A5A5A5A5A5A5A5A;
 			packageReferences = (
 				95F7F3332DEF0D91006D1C1A /* XCRemoteSwiftPackageReference "meta-wearables-dat-ios" */,
-				4B69CCC82F050E0000D1D025 /* XCRemoteSwiftPackageReference "HaishinKit.swift" */,
+				4B69CCC82F050E0000D1D025 /* XCRemoteSwiftPackageReference "HaishinKit" */,
 			);
 			productRefGroup = 7A7A7A7A7A7A7A7A7A7A7A7A /* Products */;
 			projectDirPath = "";
@@ -603,7 +603,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = B9L9HM4KD5;
+				DEVELOPMENT_TEAM = TKJG96WQZT;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = CameraAccess/Info.plist;
@@ -614,7 +614,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.meta.wearables.external.CameraAccess;
+				PRODUCT_BUNDLE_IDENTIFIER = com.meta.wearables.external.CameraAccesssunshuo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -633,7 +633,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = B9L9HM4KD5;
+				DEVELOPMENT_TEAM = TKJG96WQZT;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CameraAccess/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = " TurboMeta";
@@ -643,7 +643,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.meta.wearables.external.CameraAccess;
+				PRODUCT_BUNDLE_IDENTIFIER = com.meta.wearables.external.CameraAccesssunshuo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -857,6 +857,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4B69CCC82F050E0000D1D025 /* XCRemoteSwiftPackageReference "HaishinKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/shogo4405/HaishinKit.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		95F7F3332DEF0D91006D1C1A /* XCRemoteSwiftPackageReference "meta-wearables-dat-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/meta-wearables-dat-ios";
@@ -865,17 +873,19 @@
 				version = 0.3.0;
 			};
 		};
-		4B69CCC82F050E0000D1D025 /* XCRemoteSwiftPackageReference "HaishinKit.swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/shogo4405/HaishinKit.swift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4B69CCC92F050E0000D1D025 /* HaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B69CCC82F050E0000D1D025 /* XCRemoteSwiftPackageReference "HaishinKit" */;
+			productName = HaishinKit;
+		};
+		4B69CCCB2F050E0000D1D025 /* RTMPHaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B69CCC82F050E0000D1D025 /* XCRemoteSwiftPackageReference "HaishinKit" */;
+			productName = RTMPHaishinKit;
+		};
 		8FD96B942E6F0F7D00F56AB1 /* MWDATCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 95F7F3332DEF0D91006D1C1A /* XCRemoteSwiftPackageReference "meta-wearables-dat-ios" */;
@@ -890,16 +900,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 95F7F3332DEF0D91006D1C1A /* XCRemoteSwiftPackageReference "meta-wearables-dat-ios" */;
 			productName = MWDATMockDevice;
-		};
-		4B69CCC92F050E0000D1D025 /* HaishinKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4B69CCC82F050E0000D1D025 /* XCRemoteSwiftPackageReference "HaishinKit.swift" */;
-			productName = HaishinKit;
-		};
-		4B69CCCB2F050E0000D1D025 /* RTMPHaishinKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4B69CCC82F050E0000D1D025 /* XCRemoteSwiftPackageReference "HaishinKit.swift" */;
-			productName = RTMPHaishinKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

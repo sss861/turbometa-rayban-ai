@@ -26,8 +26,9 @@ class GeminiLiveService: NSObject {
     // Audio Playback Engine (separate engine for playback)
     private var playbackEngine: AVAudioEngine?
     private var playerNode: AVAudioPlayerNode?
-    // Gemini outputs 24kHz audio
-    private let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 24000, channels: 1, interleaved: true)
+    private let playbackAudioFormat = AVAudioFormat(standardFormatWithSampleRate: 24000, channels: 1)
+    private let recordTargetFormat = AVAudioFormat(standardFormatWithSampleRate: 16000, channels: 1)
+    private var recordConverter: AVAudioConverter?
 
     // Audio buffer management
     private var audioBuffer = Data()
@@ -73,21 +74,32 @@ class GeminiLiveService: NSObject {
         playerNode = AVAudioPlayerNode()
 
         guard let playbackEngine = playbackEngine,
-              let playerNode = playerNode,
-              let audioFormat = outputAudioFormat else {
+              let playerNode = playerNode else {
             print("❌ [Gemini] 无法初始化播放引擎")
             return
         }
 
         playbackEngine.attach(playerNode)
-        playbackEngine.connect(playerNode, to: playbackEngine.mainMixerNode, format: audioFormat)
-        print("✅ [Gemini] 播放引擎初始化完成: PCM16 @ 24kHz")
+        playbackEngine.connect(playerNode, to: playbackEngine.mainMixerNode, format: playbackAudioFormat)
+        playbackEngine.prepare()
+        print("✅ [Gemini] 播放引擎初始化完成")
+    }
+
+    private func configureAudioSession() {
+        do {
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetooth, .allowBluetoothA2DP, .defaultToSpeaker])
+            try audioSession.setActive(true, options: [.notifyOthersOnDeactivation])
+        } catch {
+            print("⚠️ [Gemini] Audio session 配置失败: \(error)")
+        }
     }
 
     private func startPlaybackEngine() {
         guard let playbackEngine = playbackEngine, !isPlaybackEngineRunning else { return }
 
         do {
+            configureAudioSession()
             try playbackEngine.start()
             isPlaybackEngineRunning = true
             print("▶️ [Gemini] 播放引擎已启动")
@@ -182,14 +194,34 @@ class GeminiLiveService: NSObject {
         do {
             print("🎤 [Gemini] 开始录音")
 
+            let audioSession = AVAudioSession.sharedInstance()
+            switch audioSession.recordPermission {
+            case .undetermined:
+                audioSession.requestRecordPermission { [weak self] granted in
+                    DispatchQueue.main.async {
+                        if granted {
+                            self?.startRecording()
+                        } else {
+                            self?.onError?("Microphone permission denied")
+                        }
+                    }
+                }
+                return
+            case .denied:
+                onError?("Microphone permission denied")
+                return
+            case .granted:
+                break
+            @unknown default:
+                break
+            }
+
             if let engine = audioEngine, engine.isRunning {
                 engine.stop()
                 engine.inputNode.removeTap(onBus: 0)
             }
 
-            let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetooth, .allowBluetoothA2DP])
-            try audioSession.setActive(true)
+            configureAudioSession()
 
             guard let engine = audioEngine else {
                 print("❌ [Gemini] 音频引擎未初始化")
@@ -198,9 +230,14 @@ class GeminiLiveService: NSObject {
 
             let inputNode = engine.inputNode
             let inputFormat = inputNode.outputFormat(forBus: 0)
+            if let recordTargetFormat {
+                recordConverter = AVAudioConverter(from: inputFormat, to: recordTargetFormat)
+            } else {
+                recordConverter = nil
+            }
 
             inputNode.installTap(onBus: 0, bufferSize: 4096, format: inputFormat) { [weak self] buffer, _ in
-                self?.processAudioBuffer(buffer)
+                self?.processAudioBuffer(buffer, inputFormat: inputFormat)
             }
 
             engine.prepare()
@@ -225,13 +262,35 @@ class GeminiLiveService: NSObject {
         hasAudioBeenSent = false
     }
 
-    private func processAudioBuffer(_ buffer: AVAudioPCMBuffer) {
-        guard let floatChannelData = buffer.floatChannelData else { return }
+    private func processAudioBuffer(_ buffer: AVAudioPCMBuffer, inputFormat: AVAudioFormat) {
+        guard let recordConverter, let recordTargetFormat else { return }
 
-        let frameLength = Int(buffer.frameLength)
+        let ratio = recordTargetFormat.sampleRate / inputFormat.sampleRate
+        let targetFrameCapacity = AVAudioFrameCount((Double(buffer.frameLength) * ratio).rounded(.up))
+
+        guard let converted = AVAudioPCMBuffer(pcmFormat: recordTargetFormat, frameCapacity: max(1, targetFrameCapacity)) else {
+            return
+        }
+
+        var hasProvidedInput = false
+        var error: NSError?
+
+        let status = recordConverter.convert(to: converted, error: &error) { _, outStatus in
+            if hasProvidedInput {
+                outStatus.pointee = .noDataNow
+                return nil
+            }
+            hasProvidedInput = true
+            outStatus.pointee = .haveData
+            return buffer
+        }
+
+        guard error == nil, status != .error else { return }
+        guard let floatChannelData = converted.floatChannelData else { return }
+
+        let frameLength = Int(converted.frameLength)
         let channel = floatChannelData.pointee
 
-        // Convert Float32 to PCM16
         var int16Data = [Int16](repeating: 0, count: frameLength)
         for i in 0..<frameLength {
             let sample = channel[i]
@@ -345,7 +404,7 @@ class GeminiLiveService: NSObject {
 
         DispatchQueue.main.async {
             // Handle setup complete
-            if let setupComplete = json["setupComplete"] as? [String: Any] {
+            if json["setupComplete"] != nil {
                 print("✅ [Gemini] 会话配置完成")
                 self.isSessionConfigured = true
                 self.onConnected?()
@@ -476,7 +535,7 @@ class GeminiLiveService: NSObject {
 
     private func playAudio(_ audioData: Data) {
         guard let playerNode = playerNode,
-              let audioFormat = outputAudioFormat else {
+              let playbackAudioFormat else {
             return
         }
 
@@ -487,7 +546,7 @@ class GeminiLiveService: NSObject {
             playerNode.play()
         }
 
-        guard let pcmBuffer = createPCMBuffer(from: audioData, format: audioFormat) else {
+        guard let pcmBuffer = createPCMBuffer(from: audioData, format: playbackAudioFormat) else {
             return
         }
 
@@ -498,7 +557,7 @@ class GeminiLiveService: NSObject {
         let frameCount = data.count / 2
 
         guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(frameCount)),
-              let channelData = buffer.int16ChannelData else {
+              let channelData = buffer.floatChannelData else {
             return nil
         }
 
@@ -507,7 +566,10 @@ class GeminiLiveService: NSObject {
         data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) in
             guard let baseAddress = bytes.baseAddress else { return }
             let int16Pointer = baseAddress.assumingMemoryBound(to: Int16.self)
-            channelData[0].update(from: int16Pointer, count: frameCount)
+            let dst = channelData.pointee
+            for i in 0..<frameCount {
+                dst[i] = Float(int16Pointer[i]) / 32768.0
+            }
         }
 
         return buffer

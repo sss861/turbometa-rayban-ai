@@ -10,6 +10,7 @@ struct LiveAIView: View {
     @ObservedObject var streamViewModel: StreamSessionViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var showConversation = true // 控制对话内容显示/隐藏
+    @State private var frameTimer: Timer?
 
     init(streamViewModel: StreamSessionViewModel, apiKey: String) {
         self.streamViewModel = streamViewModel
@@ -108,27 +109,28 @@ struct LiveAIView: View {
             viewModel.connect()
 
             // 更新视频帧
-            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+            frameTimer?.invalidate()
+            frameTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                 if let frame = streamViewModel.currentVideoFrame {
                     viewModel.updateVideoFrame(frame)
-                }
-            }
-
-            // 延迟启动录音，等待连接完成
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                if viewModel.isConnected {
-                    viewModel.startRecording()
                 }
             }
         }
         .onDisappear {
             // 停止 AI 对话和视频流
             print("🎥 LiveAIView: 停止 AI 对话和视频流")
+            frameTimer?.invalidate()
+            frameTimer = nil
             viewModel.disconnect()
             Task {
                 if streamViewModel.streamingStatus != .stopped {
                     await streamViewModel.stopSession()
                 }
+            }
+        }
+        .onChange(of: viewModel.isConnected) { isConnected in
+            if isConnected, !viewModel.isRecording {
+                viewModel.startRecording()
             }
         }
         .alert("error".localized, isPresented: $viewModel.showError) {
