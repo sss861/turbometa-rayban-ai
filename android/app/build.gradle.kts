@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    id("com.android.application") version "8.6.0"
+    id("org.jetbrains.kotlin.android") version "2.0.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 android {
@@ -23,7 +23,6 @@ android {
 
     signingConfigs {
         create("release") {
-            // Use debug keystore for now
             storeFile = file(System.getProperty("user.home") + "/.android/debug.keystore")
             storePassword = "android"
             keyAlias = "androiddebugkey"
@@ -62,72 +61,55 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-
-    lint {
-        checkReleaseBuilds = false
-        abortOnError = false
-    }
-
-    // Split APKs by ABI for smaller file sizes
-    splits {
-        abi {
-            isEnable = true
-            reset()
-            include("arm64-v8a", "armeabi-v7a")
-            isUniversalApk = true  // Also generate a universal APK
-        }
-    }
 }
 
 dependencies {
     // Meta Wearables DAT SDK
-    implementation(libs.mwdat.core)
-    implementation(libs.mwdat.camera)
-    // implementation(libs.mwdat.mockdevice) // Only needed for testing
+    implementation("com.meta.wearable:mwdat-core:0.3.0")
+    implementation("com.meta.wearable:mwdat-camera:0.3.0")
 
     // AndroidX Core
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.exifinterface)
+    implementation("androidx.core:core-ktx:1.13.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
 
-    // Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.icons)
-    debugImplementation(libs.androidx.compose.ui.tooling)
+    // Compose (使用具体的版本号而非 BOM，以防索引失效)
+    implementation("androidx.compose.ui:ui:1.7.0")
+    implementation("androidx.compose.ui:ui-graphics:1.7.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.7.0")
+    implementation("androidx.compose.material3:material3:1.3.0")
+    implementation("androidx.compose.material:material-icons-extended:1.7.0")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.7.0")
 
     // Lifecycle
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
 
     // Navigation
-    implementation(libs.androidx.navigation.compose)
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 
     // DataStore
-    implementation(libs.androidx.datastore.preferences)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // Security
-    implementation(libs.androidx.security.crypto)
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
     // Networking
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging)
-    implementation(libs.gson)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.google.code.gson:gson:2.10.1")
 
     // Image Loading
-    implementation(libs.coil.compose)
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
     // Collections
-    implementation(libs.kotlinx.collections.immutable)
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
 
     // Picovoice Wake Word Detection
-    implementation(libs.picovoice.porcupine)
+    implementation("ai.picovoice:porcupine-android:3.0.3")
 
-    // RTMP Streaming (RootEncoder old version without Compose dependencies)
-    implementation(libs.rtmp.client)
+    // RTMP Streaming
+    implementation("com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:2.2.6")
 }

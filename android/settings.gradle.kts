@@ -40,6 +40,7 @@ dependencyResolutionManagement {
         // JitPack for RootEncoder (RTMP streaming)
         maven { url = uri("https://jitpack.io") }
     }
+
 }
 
 rootProject.name = "TurboMeta"
