@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TurboMeta</string>
+    <string name="app_name">TourMeta</string>
 
     <!-- Navigation / Tabs -->
     <string name="home">首页</string>
@@ -11,11 +11,11 @@
     <string name="live_ai">实时AI</string>
     <string name="lean_eat">LeanEat</string>
     <string name="settings">设置</string>
-    <string name="vision_recognition">视觉识别</string>
+    <string name="vision_recognition">展品拍照识别</string>
 
     <!-- Home Screen -->
-    <string name="home_welcome">欢迎使用 TurboMeta</string>
-    <string name="home_subtitle">RayBan Meta助手</string>
+    <string name="home_welcome">欢迎使用智能导览系统</string>
+    <string name="home_subtitle">智能导览助手</string>
     <string name="home_connect_glasses">连接 Ray-Ban Meta</string>
     <string name="features">功能</string>
     <string name="live_ai_subtitle">实时AI语音对话助手</string>
@@ -365,19 +365,19 @@
     <string name="liveai_mode_custom_desc">使用自定义系统提示词</string>
 
     <!-- AI Prompts (for services to use based on language) -->
-    <string name="prompt_quickvision">你是一个智能眼镜AI助手。请用简洁的中文描述图片内容，适合语音播报。\n\n要求：\n1. 用1-2句话描述主要内容\n2. 语言自然、口语化\n3. 不要使用标点符号过多\n4. 总字数控制在50字以内\n5. 直接描述，不要说\"图片中\"或\"我看到\"</string>
-    <string name="prompt_liveai">你是RayBan Meta智能眼镜AI助手。\n\n【重要】必须始终用中文回答，无论用户说什么语言。\n\n回答要简练、口语化，像朋友聊天一样。用户戴着眼镜可以看到周围环境，根据画面快速给出有用的建议。不要啰嗦，直接说重点。</string>
+    <string name="prompt_quickvision">请作为博物馆专家识别图片中的展品。详细描述它的年代、来源以及在历史中的地位。如果展品上有铭文或特殊纹饰，请一并解析。</string>
+    <string name="prompt_liveai">你是一位专业的博物馆讲解员。【请注意】一直用中文回答。请通过眼镜画面识别文物，并用生动、专业的语言为游客讲解其历史和艺术价值。</string>
 
     <!-- Quick Vision Mode Prompts -->
-    <string name="prompt_quickvision_standard">你是一个智能眼镜AI助手。请用简洁的中文描述图片内容，适合语音播报。\n\n要求：\n1. 用1-2句话描述主要内容\n2. 语言自然、口语化\n3. 不要使用标点符号过多\n4. 总字数控制在50字以内\n5. 直接描述，不要说\"图片中\"或\"我看到\"</string>
-    <string name="prompt_quickvision_health">分析这个食品/饮料的健康程度。从以下角度科学分析：\n1. 营养成分是否均衡\n2. 添加剂和防腐剂情况\n3. 糖分/盐分/脂肪含量\n4. 对身体的潜在影响\n5. 给出健康建议\n\n用简洁口语化的方式回答，适合语音播报，控制在100字以内。</string>
-    <string name="prompt_quickvision_blind">为视障用户详细描述眼前的环境，包括：\n1. 周围有什么物体和人\n2. 大概的距离和方位\n3. 是否有障碍物或危险\n4. 环境的整体氛围（室内/室外、明暗等）\n5. 任何需要注意的细节\n\n描述要清晰、具体，使用方位词（前方、左侧等），控制在80字以内。</string>
-    <string name="prompt_quickvision_reading">识别并朗读图片中的文字内容。要求：\n1. 准确识别所有可见文字\n2. 按照阅读顺序组织内容\n3. 如果是菜单/标牌，说明类型\n4. 如果文字不清晰，说明情况\n\n直接朗读文字内容，不需要额外解释。</string>
+    <string name="prompt_quickvision_standard">你是一个智能眼镜AI助手。请用简洁的中文描述图片内容，适合语音播报。  要求： 1. 用1-2句话描述主要内容 2. 语言自然、口语化 3. 不要使用标点符号过多 4. 总字数控制在50字以内 5. 直接描述，不要说\"图片中\"或\"我看到\"</string>
+    <string name="prompt_quickvision_relic">你是一位文物保护与修复专家。请分析图中物体的材质（如青铜、陶器、丝织品等）以及目前的保存现状，向观众科普该类文物保护的难点。</string>
+    <string name="prompt_quickvision_blind">请为视障游客提供详细的展厅描述。包括眼前的展品外观、体积大小、陈列布局以及周围的参观环境，通过语言构建出博物馆的空间感。</string>
+    <string name="prompt_quickvision_reading">请识别并清晰地朗读出展品介绍牌或说明文字的内容。如果文字是古汉语或外语，请用通俗易懂的现代汉语进行概括。</string>
     <string name="prompt_quickvision_translate">识别图片中的文字，并翻译成{LANGUAGE}。要求：\n1. 准确识别所有可见文字\n2. 翻译要准确、自然\n3. 如果有多段文字，分段翻译\n4. 直接说翻译结果，不需要说明原文\n\n适合语音播报，控制在100字以内。</string>
     <string name="prompt_quickvision_encyclopedia">识别图片中的物体、建筑、艺术品或生物，提供百科知识介绍。包括：\n1. 名称和分类\n2. 历史背景或来源\n3. 有趣的知识点\n4. 相关文化意义\n\n像博物馆讲解员一样，生动有趣，适合语音播报，控制在100字以内。</string>
 
     <!-- Live AI Mode Prompts -->
-    <string name="prompt_liveai_standard">你是RayBan Meta智能眼镜AI助手。\n\n【重要】必须始终用中文回答，无论用户说什么语言。\n\n回答要简练、口语化，像朋友聊天一样。用户戴着眼镜可以看到周围环境，根据画面快速给出有用的建议。不要啰嗦，直接说重点。</string>
+    <string name="prompt_liveai_standard">你是一位专业的博物馆讲解员。请通过眼镜画面识别文物，并用生动、专业的语言为游客讲解其历史和艺术价值。请重点关注：1. 展品的历史背景；2. 艺术特色与工艺；3. 相关的趣闻轶事。请始终使用中文回答，语气要像在现场导览一样亲切。</string>
     <string name="prompt_liveai_museum">你是一位专业的博物馆讲解员AI助手。\n\n【重要】必须始终用中文回答。\n\n当用户看向展品时，请提供：\n1. 展品名称和基本信息\n2. 历史背景和文化意义\n3. 有趣的故事或知识点\n4. 与其他展品的关联\n\n像一位知识渊博又风趣的讲解员，让参观变得生动有趣。</string>
     <string name="prompt_liveai_blind">你是视障用户的智能眼镜助手。\n\n【重要】必须始终用中文回答。\n\n你的任务是帮助用户理解周围环境：\n1. 详细描述周围的物体、人和环境\n2. 使用清晰的方位词（前方、左侧、右后方等）\n3. 指出可能的障碍物或危险\n4. 朗读标识、菜单等文字内容\n5. 提供安全、实用的导航建议\n\n说话清晰、有条理，优先说最重要的信息。</string>
     <string name="prompt_liveai_reading">你是阅读辅助AI助手。\n\n【重要】必须始终用中文回答。\n\n你的任务是帮助用户阅读看到的文字：\n1. 准确识别并朗读所有可见文字\n2. 按照正确的阅读顺序组织内容\n3. 对于文档，说明文字的结构\n4. 对于外语，先读原文再翻译\n\n语速适中，吐字清晰，像一位专业的朗读者。</string>

@@ -322,394 +322,394 @@ fun HomeScreen(
                 }
 
                 // Row 2: LeanEat + WordLearn
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(AppSpacing.medium)
-                ) {
-                    FeatureCard(
-                        modifier = Modifier.weight(1f),
-                        title = stringResource(R.string.lean_eat),
-                        subtitle = stringResource(R.string.lean_eat_subtitle),
-                        icon = Icons.Default.Restaurant,
-                        gradientColors = listOf(LeanEatColor, LeanEatColor.copy(alpha = 0.7f)),
-                        onClick = onNavigateToLeanEat
-                    )
+/* // 注释掉这一整行，隐藏 LeanEat 和 WordLearn
+Row(
+    modifier = Modifier.fillMaxWidth(),
+    horizontalArrangement = Arrangement.spacedBy(AppSpacing.medium)
+) {
+    FeatureCard(
+        modifier = Modifier.weight(1f),
+        title = stringResource(R.string.lean_eat),
+        subtitle = stringResource(R.string.lean_eat_subtitle),
+        icon = Icons.Default.Restaurant,
+        gradientColors = listOf(LeanEatColor, LeanEatColor.copy(alpha = 0.7f)),
+        onClick = onNavigateToLeanEat
+    )
 
-                    FeatureCard(
-                        modifier = Modifier.weight(1f),
-                        title = stringResource(R.string.feature_wordlearn_title),
-                        subtitle = stringResource(R.string.feature_wordlearn_subtitle),
-                        icon = Icons.AutoMirrored.Filled.MenuBook,
-                        gradientColors = listOf(WordLearnColor, WordLearnColor.copy(alpha = 0.7f)),
-                        isPlaceholder = true,
-                        onClick = {}
-                    )
-                }
-
-                // Row 3: LiveStream (wide card)
-                FeatureCardWide(
-                    title = stringResource(R.string.feature_livestream_title),
-                    subtitle = stringResource(R.string.feature_livestream_subtitle),
-                    icon = Icons.Default.Videocam,
-                    gradientColors = listOf(LiveStreamColor, LiveStreamColor.copy(alpha = 0.7f)),
-                    isLoading = isCheckingPermission,
-                    onClick = {
-                        // Check device connection first
-                        if (!hasActiveDevice) {
-                            showDeviceNotConnectedDialog = true
-                            return@FeatureCardWide
-                        }
-                        // Check camera permission and navigate
-                        checkCameraPermissionAndNavigate { onNavigateToLiveStream() }
-                    }
-                )
-
-                // Row 4: RTMP Streaming (wide card) - Experimental
-                FeatureCardWide(
-                    title = stringResource(R.string.feature_rtmp_title),
-                    subtitle = stringResource(R.string.feature_rtmp_subtitle),
-                    icon = Icons.Default.Stream,
-                    gradientColors = listOf(Color(0xFF9C27B0), Color(0xFF9C27B0).copy(alpha = 0.7f)),
-                    isLoading = isCheckingPermission,
-                    onClick = {
-                        // Check device connection first
-                        if (!hasActiveDevice) {
-                            showDeviceNotConnectedDialog = true
-                            return@FeatureCardWide
-                        }
-                        // Check camera permission and navigate
-                        checkCameraPermissionAndNavigate { onNavigateToRTMPStream() }
-                    }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(AppSpacing.extraLarge))
+    FeatureCard(
+        modifier = Modifier.weight(1f),
+        title = stringResource(R.string.feature_wordlearn_title),
+        subtitle = stringResource(R.string.feature_wordlearn_subtitle),
+        icon = Icons.AutoMirrored.Filled.MenuBook,
+        gradientColors = listOf(WordLearnColor, WordLearnColor.copy(alpha = 0.7f)),
+        isPlaceholder = true,
+        onClick = {}
+    )
+}
+*/
+// Row 3: LiveStream (wide card)
+FeatureCardWide(
+    title = stringResource(R.string.feature_livestream_title),
+    subtitle = stringResource(R.string.feature_livestream_subtitle),
+    icon = Icons.Default.Videocam,
+    gradientColors = listOf(LiveStreamColor, LiveStreamColor.copy(alpha = 0.7f)),
+    isLoading = isCheckingPermission,
+    onClick = {
+        // Check device connection first
+        if (!hasActiveDevice) {
+            showDeviceNotConnectedDialog = true
+            return@FeatureCardWide
         }
+        // Check camera permission and navigate
+        checkCameraPermissionAndNavigate { onNavigateToLiveStream() }
     }
+)
+
+// Row 4: RTMP Streaming (wide card) - Experimental
+FeatureCardWide(
+    title = stringResource(R.string.feature_rtmp_title),
+    subtitle = stringResource(R.string.feature_rtmp_subtitle),
+    icon = Icons.Default.Stream,
+    gradientColors = listOf(Color(0xFF9C27B0), Color(0xFF9C27B0).copy(alpha = 0.7f)),
+    isLoading = isCheckingPermission,
+    onClick = {
+        // Check device connection first
+        if (!hasActiveDevice) {
+            showDeviceNotConnectedDialog = true
+            return@FeatureCardWide
+        }
+        // Check camera permission and navigate
+        checkCameraPermissionAndNavigate { onNavigateToRTMPStream() }
+    }
+)
+}
+Spacer(modifier = Modifier.height(AppSpacing.extraLarge))
+}
+}
 }
 
 @Composable
 private fun FeatureCard(
-    modifier: Modifier = Modifier,
-    title: String,
-    subtitle: String,
-    icon: ImageVector,
-    gradientColors: List<Color>,
-    isPlaceholder: Boolean = false,
-    isLoading: Boolean = false,
-    onClick: () -> Unit
+modifier: Modifier = Modifier,
+title: String,
+subtitle: String,
+icon: ImageVector,
+gradientColors: List<Color>,
+isPlaceholder: Boolean = false,
+isLoading: Boolean = false,
+onClick: () -> Unit
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1f,
-        label = "scale"
+val interactionSource = remember { MutableInteractionSource() }
+val isPressed by interactionSource.collectIsPressedAsState()
+val scale by animateFloatAsState(
+targetValue = if (isPressed) 0.95f else 1f,
+label = "scale"
+)
+
+// Use Box with explicit gradient background - no inner containers with backgrounds
+Box(
+modifier = modifier
+.height(180.dp)
+.scale(scale)
+.clip(RoundedCornerShape(AppRadius.large))
+.background(
+brush = Brush.linearGradient(
+    colors = gradientColors,
+    start = androidx.compose.ui.geometry.Offset(0f, 0f),
+    end = androidx.compose.ui.geometry.Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+)
+)
+.then(
+if (!isPlaceholder) {
+    Modifier.clickable(
+        interactionSource = interactionSource,
+        indication = null,
+        onClick = onClick
     )
+} else Modifier
+),
+contentAlignment = Alignment.Center
+) {
+Column(
+horizontalAlignment = Alignment.CenterHorizontally,
+verticalArrangement = Arrangement.Center
+) {
+// Icon with circle background
+Box(
+modifier = Modifier
+    .size(56.dp)
+    .clip(CircleShape)
+    .background(Color.White.copy(alpha = 0.2f)),
+contentAlignment = Alignment.Center
+) {
+Icon(
+    imageVector = icon,
+    contentDescription = null,
+    tint = Color.White,
+    modifier = Modifier.size(28.dp)
+)
+}
 
-    // Use Box with explicit gradient background - no inner containers with backgrounds
-    Box(
-        modifier = modifier
-            .height(180.dp)
-            .scale(scale)
-            .clip(RoundedCornerShape(AppRadius.large))
-            .background(
-                brush = Brush.linearGradient(
-                    colors = gradientColors,
-                    start = androidx.compose.ui.geometry.Offset(0f, 0f),
-                    end = androidx.compose.ui.geometry.Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
-                )
-            )
-            .then(
-                if (!isPlaceholder) {
-                    Modifier.clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = onClick
-                    )
-                } else Modifier
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            // Icon with circle background
-            Box(
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.2f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(28.dp)
-                )
-            }
+Spacer(modifier = Modifier.height(AppSpacing.medium))
 
-            Spacer(modifier = Modifier.height(AppSpacing.medium))
+// Title
+Text(
+text = title,
+fontSize = 16.sp,
+fontWeight = FontWeight.SemiBold,
+color = Color.White,
+textAlign = TextAlign.Center
+)
 
-            // Title
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.White,
-                textAlign = TextAlign.Center
-            )
+Spacer(modifier = Modifier.height(AppSpacing.extraSmall))
 
-            Spacer(modifier = Modifier.height(AppSpacing.extraSmall))
+// Subtitle
+Text(
+text = subtitle,
+fontSize = 12.sp,
+color = Color.White.copy(alpha = 0.8f),
+textAlign = TextAlign.Center
+)
 
-            // Subtitle
-            Text(
-                text = subtitle,
-                fontSize = 12.sp,
-                color = Color.White.copy(alpha = 0.8f),
-                textAlign = TextAlign.Center
-            )
-
-            // Coming Soon badge for placeholders
-            if (isPlaceholder) {
-                Spacer(modifier = Modifier.height(AppSpacing.small))
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(AppRadius.small))
-                        .background(Color.White.copy(alpha = 0.2f))
-                        .padding(horizontal = AppSpacing.medium, vertical = AppSpacing.extraSmall)
-                ) {
-                    Text(
-                        text = "Coming Soon",
-                        fontSize = 10.sp,
-                        color = Color.White.copy(alpha = 0.9f)
-                    )
-                }
-            }
-        }
-    }
+// Coming Soon badge for placeholders
+if (isPlaceholder) {
+Spacer(modifier = Modifier.height(AppSpacing.small))
+Box(
+    modifier = Modifier
+        .clip(RoundedCornerShape(AppRadius.small))
+        .background(Color.White.copy(alpha = 0.2f))
+        .padding(horizontal = AppSpacing.medium, vertical = AppSpacing.extraSmall)
+) {
+    Text(
+        text = "Coming Soon",
+        fontSize = 10.sp,
+        color = Color.White.copy(alpha = 0.9f)
+    )
+}
+}
+}
+}
 }
 
 @Composable
 private fun FeatureCardWide(
-    title: String,
-    subtitle: String,
-    icon: ImageVector,
-    gradientColors: List<Color>,
-    isLoading: Boolean = false,
-    onClick: () -> Unit
+title: String,
+subtitle: String,
+icon: ImageVector,
+gradientColors: List<Color>,
+isLoading: Boolean = false,
+onClick: () -> Unit
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1f,
-        label = "scale"
-    )
+val interactionSource = remember { MutableInteractionSource() }
+val isPressed by interactionSource.collectIsPressedAsState()
+val scale by animateFloatAsState(
+targetValue = if (isPressed) 0.95f else 1f,
+label = "scale"
+)
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .scale(scale)
-            .clip(RoundedCornerShape(AppRadius.large))
-            .background(
-                Brush.horizontalGradient(
-                    colors = gradientColors
-                )
-            )
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onClick
-            )
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(AppSpacing.large),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Icon with circle background
-            Box(
-                modifier = Modifier
-                    .size(64.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.2f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(32.dp)
-                )
-            }
+Box(
+modifier = Modifier
+.fillMaxWidth()
+.scale(scale)
+.clip(RoundedCornerShape(AppRadius.large))
+.background(
+Brush.horizontalGradient(
+    colors = gradientColors
+)
+)
+.clickable(
+interactionSource = interactionSource,
+indication = null,
+onClick = onClick
+)
+) {
+Row(
+modifier = Modifier
+.fillMaxWidth()
+.padding(AppSpacing.large),
+verticalAlignment = Alignment.CenterVertically
+) {
+// Icon with circle background
+Box(
+modifier = Modifier
+    .size(64.dp)
+    .clip(CircleShape)
+    .background(Color.White.copy(alpha = 0.2f)),
+contentAlignment = Alignment.Center
+) {
+Icon(
+    imageVector = icon,
+    contentDescription = null,
+    tint = Color.White,
+    modifier = Modifier.size(32.dp)
+)
+}
 
-            Spacer(modifier = Modifier.width(AppSpacing.large))
+Spacer(modifier = Modifier.width(AppSpacing.large))
 
-            // Text
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(AppSpacing.extraSmall))
-                Text(
-                    text = subtitle,
-                    fontSize = 14.sp,
-                    color = Color.White.copy(alpha = 0.8f)
-                )
-            }
+// Text
+Column(modifier = Modifier.weight(1f)) {
+Text(
+    text = title,
+    fontSize = 20.sp,
+    fontWeight = FontWeight.SemiBold,
+    color = Color.White
+)
+Spacer(modifier = Modifier.height(AppSpacing.extraSmall))
+Text(
+    text = subtitle,
+    fontSize = 14.sp,
+    color = Color.White.copy(alpha = 0.8f)
+)
+}
 
-            // Arrow
-            Icon(
-                imageVector = Icons.Default.ChevronRight,
-                contentDescription = null,
-                tint = Color.White.copy(alpha = 0.6f),
-                modifier = Modifier.size(24.dp)
-            )
-        }
-    }
+// Arrow
+Icon(
+imageVector = Icons.Default.ChevronRight,
+contentDescription = null,
+tint = Color.White.copy(alpha = 0.6f),
+modifier = Modifier.size(24.dp)
+)
+}
+}
 }
 
 @Composable
 private fun DeviceStatusCard(
-    connectionState: WearablesViewModel.ConnectionState,
-    onConnect: () -> Unit,
-    onDisconnect: () -> Unit,
-    modifier: Modifier = Modifier
+connectionState: WearablesViewModel.ConnectionState,
+onConnect: () -> Unit,
+onDisconnect: () -> Unit,
+modifier: Modifier = Modifier
 ) {
-    // iOS doesn't distinguish between Registered and Connected on home screen
-    // Both states mean the device is available - show as "Connected"
-    val isConnected = connectionState is WearablesViewModel.ConnectionState.Connected
-    val isRegistered = connectionState is WearablesViewModel.ConnectionState.Registered
-    val isSearching = connectionState is WearablesViewModel.ConnectionState.Searching
-    val isConnecting = connectionState is WearablesViewModel.ConnectionState.Connecting
-    val hasDevice = isConnected || isRegistered
+// iOS doesn't distinguish between Registered and Connected on home screen
+// Both states mean the device is available - show as "Connected"
+val isConnected = connectionState is WearablesViewModel.ConnectionState.Connected
+val isRegistered = connectionState is WearablesViewModel.ConnectionState.Registered
+val isSearching = connectionState is WearablesViewModel.ConnectionState.Searching
+val isConnecting = connectionState is WearablesViewModel.ConnectionState.Connecting
+val hasDevice = isConnected || isRegistered
 
-    // Treat both Registered and Connected as "connected" for UI purposes (matching iOS)
-    val showAsConnected = hasDevice
+// Treat both Registered and Connected as "connected" for UI purposes (matching iOS)
+val showAsConnected = hasDevice
 
-    var showDisconnectDialog by remember { mutableStateOf(false) }
+var showDisconnectDialog by remember { mutableStateOf(false) }
 
-    // Disconnect confirmation dialog
-    if (showDisconnectDialog) {
-        AlertDialog(
-            onDismissRequest = { showDisconnectDialog = false },
-            title = { Text(stringResource(R.string.settings_disconnect)) },
-            text = { Text(stringResource(R.string.disconnect_confirm)) },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        onDisconnect()
-                        showDisconnectDialog = false
-                    }
-                ) {
-                    Text(stringResource(R.string.disconnect), color = Error)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDisconnectDialog = false }) {
-                    Text(stringResource(R.string.cancel))
-                }
-            }
+// Disconnect confirmation dialog
+if (showDisconnectDialog) {
+AlertDialog(
+onDismissRequest = { showDisconnectDialog = false },
+title = { Text(stringResource(R.string.settings_disconnect)) },
+text = { Text(stringResource(R.string.disconnect_confirm)) },
+confirmButton = {
+TextButton(
+    onClick = {
+        onDisconnect()
+        showDisconnectDialog = false
+    }
+) {
+    Text(stringResource(R.string.disconnect), color = Error)
+}
+},
+dismissButton = {
+TextButton(onClick = { showDisconnectDialog = false }) {
+    Text(stringResource(R.string.cancel))
+}
+}
+)
+}
+
+Card(
+modifier = modifier.fillMaxWidth(),
+shape = RoundedCornerShape(AppRadius.large),
+colors = CardDefaults.cardColors(
+containerColor = CardBackgroundLight
+),
+onClick = if (hasDevice) { { showDisconnectDialog = true } } else { {} }
+) {
+Row(
+modifier = Modifier
+.fillMaxWidth()
+.padding(AppSpacing.medium),
+verticalAlignment = Alignment.CenterVertically
+) {
+// Icon
+Box(
+modifier = Modifier
+    .size(48.dp)
+    .clip(CircleShape)
+    .background(
+        if (showAsConnected) Success.copy(alpha = 0.1f)
+        else Primary.copy(alpha = 0.1f)
+    ),
+contentAlignment = Alignment.Center
+) {
+Icon(
+    imageVector = Icons.Default.Bluetooth,
+    contentDescription = null,
+    tint = if (showAsConnected) Success else Primary,
+    modifier = Modifier.size(24.dp)
+)
+}
+
+Spacer(modifier = Modifier.width(AppSpacing.medium))
+
+// Text
+Column(modifier = Modifier.weight(1f)) {
+Text(
+    text = stringResource(R.string.rayban_glasses),
+    fontSize = 16.sp,
+    fontWeight = FontWeight.SemiBold,
+    color = TextPrimaryLight
+)
+Text(
+    text = when {
+        showAsConnected -> stringResource(R.string.connected)
+        isSearching -> stringResource(R.string.searching)
+        isConnecting -> stringResource(R.string.connecting)
+        connectionState is WearablesViewModel.ConnectionState.Error -> connectionState.message
+        else -> stringResource(R.string.disconnected)
+    },
+    fontSize = 14.sp,
+    color = if (showAsConnected) Success else TextSecondaryLight
+)
+}
+
+// Connect Button or Status
+when {
+showAsConnected -> {
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(AppRadius.small))
+            .background(Success.copy(alpha = 0.1f))
+            .padding(horizontal = AppSpacing.medium, vertical = AppSpacing.small)
+    ) {
+        Text(
+            text = stringResource(R.string.connected),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium,
+            color = Success
         )
     }
-
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(AppRadius.large),
-        colors = CardDefaults.cardColors(
-            containerColor = CardBackgroundLight
+}
+isSearching || isConnecting -> {
+    CircularProgressIndicator(
+        modifier = Modifier.size(24.dp),
+        strokeWidth = 2.dp,
+        color = Primary
+    )
+}
+else -> {
+    Button(
+        onClick = onConnect,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Primary
         ),
-        onClick = if (hasDevice) { { showDisconnectDialog = true } } else { {} }
+        shape = RoundedCornerShape(AppRadius.small)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(AppSpacing.medium),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Icon
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(
-                        if (showAsConnected) Success.copy(alpha = 0.1f)
-                        else Primary.copy(alpha = 0.1f)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Bluetooth,
-                    contentDescription = null,
-                    tint = if (showAsConnected) Success else Primary,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.width(AppSpacing.medium))
-
-            // Text
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(R.string.rayban_glasses),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = TextPrimaryLight
-                )
-                Text(
-                    text = when {
-                        showAsConnected -> stringResource(R.string.connected)
-                        isSearching -> stringResource(R.string.searching)
-                        isConnecting -> stringResource(R.string.connecting)
-                        connectionState is WearablesViewModel.ConnectionState.Error -> connectionState.message
-                        else -> stringResource(R.string.disconnected)
-                    },
-                    fontSize = 14.sp,
-                    color = if (showAsConnected) Success else TextSecondaryLight
-                )
-            }
-
-            // Connect Button or Status
-            when {
-                showAsConnected -> {
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(AppRadius.small))
-                            .background(Success.copy(alpha = 0.1f))
-                            .padding(horizontal = AppSpacing.medium, vertical = AppSpacing.small)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.connected),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = Success
-                        )
-                    }
-                }
-                isSearching || isConnecting -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(24.dp),
-                        strokeWidth = 2.dp,
-                        color = Primary
-                    )
-                }
-                else -> {
-                    Button(
-                        onClick = onConnect,
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Primary
-                        ),
-                        shape = RoundedCornerShape(AppRadius.small)
-                    ) {
-                        Text(stringResource(R.string.connect_glasses))
-                    }
-                }
-            }
-        }
+        Text(stringResource(R.string.connect_glasses))
     }
+}
+}
+}
+}
 }

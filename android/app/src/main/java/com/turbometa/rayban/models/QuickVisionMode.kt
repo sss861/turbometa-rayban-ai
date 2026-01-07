@@ -47,7 +47,7 @@ enum class QuickVisionMode(val id: String) {
     fun getPrompt(context: Context): String {
         return when (this) {
             STANDARD -> context.getString(R.string.prompt_quickvision_standard)
-            HEALTH -> context.getString(R.string.prompt_quickvision_health)
+            HEALTH -> context.getString(R.string.prompt_quickvision_relic)
             BLIND -> context.getString(R.string.prompt_quickvision_blind)
             READING -> context.getString(R.string.prompt_quickvision_reading)
             TRANSLATE -> "" // 需要通过 Manager 获取（包含目标语言）
