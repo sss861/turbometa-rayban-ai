@@ -159,9 +159,9 @@ The wake word detection feature ("Jarvis") uses **Picovoice Porcupine**. To use 
   - AI 提示词跟随输出语言设置
 
 - **Default Models | 默认模型**
-  - Alibaba: qwen-vl-flash (fast response)
+  - Alibaba: qwen3-vl-flash (fast response)
   - OpenRouter: google/gemini-2.0-flash-001
-  - 阿里云: qwen-vl-flash（快速响应）
+  - 阿里云: qwen3-vl-flash（快速响应）
   - OpenRouter: google/gemini-2.0-flash-001
 
 #### Bug Fixes | 修复

@@ -82,7 +82,7 @@ enum class APIProvider(val id: String) {
 
     val defaultModel: String
         get() = when (this) {
-            ALIBABA -> "qwen-vl-flash"
+            ALIBABA -> "qwen3-vl-flash"
             OPENROUTER -> "google/gemini-2.0-flash-001"
         }
 
@@ -209,7 +209,7 @@ data class AlibabaVisionModel(
     companion object {
         val availableModels = listOf(
             AlibabaVisionModel(
-                "qwen-vl-flash",
+                "qwen3-vl-flash",
                 "Qwen VL Flash",
                 "快速响应，适合实时场景"
             ),
