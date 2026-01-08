@@ -4,7 +4,7 @@
  */
 
 // MARK: - App General
-"app.name" = "TurboMeta";
+"app.name" = "TourMeta";
 "app.subtitle" = "RayBan Meta Assistant";
 "ok" = "OK";
 "cancel" = "Cancel";

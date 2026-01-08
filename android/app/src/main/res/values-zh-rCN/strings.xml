@@ -200,6 +200,8 @@
     <string name="delete_confirm_message">确定要删除所有对话记录吗？此操作无法撤销。</string>
     <string name="delete">删除</string>
     <string name="cancel">取消</string>
+    <string name="test_gallery_save">测试相册保存</string>
+    <string name="test_gallery_save_desc">在 TourMeta 相册中创建一张测试图片</string>
 
     <!-- API Key Settings -->
     <string name="apikey_title">API Key 设置</string>

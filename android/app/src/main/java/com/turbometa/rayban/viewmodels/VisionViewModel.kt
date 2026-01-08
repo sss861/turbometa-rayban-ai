@@ -76,6 +76,7 @@ class VisionViewModel(application: Application) : AndroidViewModel(application) 
         _capturedImage.value = bitmap
         _viewState.value = ViewState.Capturing
         _analysisResult.value = null
+        saveImageToGallery()
     }
 
     fun setCustomPrompt(prompt: String) {

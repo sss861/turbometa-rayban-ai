@@ -1,9 +1,12 @@
 package com.turbometa.rayban.viewmodels
 
 import android.app.Application
+import android.graphics.Bitmap
+import android.graphics.Color
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.turbometa.rayban.data.ConversationStorage
+import com.turbometa.rayban.data.QuickVisionStorage
 import com.turbometa.rayban.managers.AlibabaEndpoint
 import com.turbometa.rayban.managers.AlibabaVisionModel
 import com.turbometa.rayban.managers.APIProvider
@@ -31,6 +34,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     private val apiKeyManager = APIKeyManager.getInstance(application)
     private val providerManager = APIProviderManager.getInstance(application)
     private val conversationStorage = ConversationStorage.getInstance(application)
+    private val quickVisionStorage = QuickVisionStorage(application)
 
     // Vision API Provider
     private val _visionProvider = MutableStateFlow(providerManager.currentProvider.value)
@@ -492,6 +496,25 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun refreshConversationCount() {
         _conversationCount.value = conversationStorage.getConversationCount()
+    }
+
+    fun testSaveToGallery() {
+        viewModelScope.launch {
+            try {
+                // Create a test bitmap (100x100 red square)
+                val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+                bitmap.eraseColor(Color.RED)
+                
+                val uri = quickVisionStorage.saveToGallery(bitmap)
+                if (uri != null) {
+                    _message.value = "Test image saved to Gallery: $uri"
+                } else {
+                    _message.value = "Failed to save test image"
+                }
+            } catch (e: Exception) {
+                _message.value = "Error saving test image: ${e.message}"
+            }
+        }
     }
 
     // Message handling

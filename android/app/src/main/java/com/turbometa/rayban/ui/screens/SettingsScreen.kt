@@ -413,6 +413,15 @@ fun SettingsScreen(
                     onClick = { viewModel.showDeleteConfirmDialog() },
                     isDestructive = true
                 )
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = AppSpacing.medium))
+
+                SettingsItem(
+                    icon = Icons.Default.Image,
+                    title = stringResource(R.string.test_gallery_save),
+                    subtitle = stringResource(R.string.test_gallery_save_desc),
+                    onClick = { viewModel.testSaveToGallery() }
+                )
             }
 
             // About Section

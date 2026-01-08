@@ -1,8 +1,12 @@
 package com.turbometa.rayban.data
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -24,12 +28,18 @@ class QuickVisionStorage(private val context: Context) {
             if (!it.exists()) it.mkdirs()
         }
     }
+    private val imagesDir: File by lazy {
+        File(context.filesDir, IMAGES_DIR).also {
+            if (!it.exists()) it.mkdirs()
+        }
+    }
 
     companion object {
         private const val TAG = "QuickVisionStorage"
         private const val PREFS_NAME = "turbometa_quick_vision"
         private const val KEY_RECORDS = "saved_records"
         private const val THUMBNAIL_DIR = "quick_vision_thumbnails"
+        private const val IMAGES_DIR = "quick_vision_images"
         private const val MAX_RECORDS = 100
 
         @Volatile
@@ -55,6 +65,7 @@ class QuickVisionStorage(private val context: Context) {
         return try {
             val id = java.util.UUID.randomUUID().toString()
             val thumbnailPath = saveThumbnail(id, bitmap)
+            val imagePath = saveFullImage(id, bitmap)
 
             if (thumbnailPath == null) {
                 Log.e(TAG, "Failed to save thumbnail")
@@ -64,6 +75,7 @@ class QuickVisionStorage(private val context: Context) {
             val record = QuickVisionRecord(
                 id = id,
                 thumbnailPath = thumbnailPath,
+                imagePath = imagePath,
                 prompt = prompt,
                 result = result,
                 mode = mode,
@@ -76,7 +88,10 @@ class QuickVisionStorage(private val context: Context) {
             // Trim to max records and clean up old thumbnails
             if (records.size > MAX_RECORDS) {
                 val toRemove = records.subList(MAX_RECORDS, records.size)
-                toRemove.forEach { deleteThumbnail(it.thumbnailPath) }
+                toRemove.forEach { 
+                    deleteThumbnail(it.thumbnailPath)
+                    it.imagePath?.let { path -> deleteImage(path) }
+                }
                 records.removeAll(toRemove.toSet())
             }
 
@@ -121,6 +136,7 @@ class QuickVisionStorage(private val context: Context) {
 
             if (record != null) {
                 deleteThumbnail(record.thumbnailPath)
+                record.imagePath?.let { deleteImage(it) }
                 records.removeAll { it.id == id }
                 val json = gson.toJson(records)
                 prefs.edit().putString(KEY_RECORDS, json).apply()
@@ -140,6 +156,7 @@ class QuickVisionStorage(private val context: Context) {
         return try {
             // Delete all thumbnail files
             thumbnailDir.listFiles()?.forEach { it.delete() }
+            imagesDir.listFiles()?.forEach { it.delete() }
             prefs.edit().remove(KEY_RECORDS).apply()
             Log.d(TAG, "All records deleted")
             true
@@ -154,6 +171,62 @@ class QuickVisionStorage(private val context: Context) {
      */
     fun getRecordCount(): Int {
         return getAllRecords().size
+    }
+
+    /**
+     * Save bitmap to Gallery (MediaStore)
+     */
+    fun saveToGallery(bitmap: Bitmap): String? {
+        val filename = "IMG_${System.currentTimeMillis()}.jpg"
+        var fos: java.io.OutputStream? = null
+        var imageUri: Uri? = null
+
+        try {
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                        put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/TurboMeta")
+                        put(MediaStore.MediaColumns.IS_PENDING, 1)
+                    }
+            }
+
+            val contentResolver = context.contentResolver
+            imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+            if (imageUri != null) {
+                fos = contentResolver.openOutputStream(imageUri)
+                if (fos != null) {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                    fos.close()
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                        contentValues.clear()
+                        contentValues.put(MediaStore.MediaColumns.IS_PENDING, 0)
+                        contentResolver.update(imageUri, contentValues, null, null)
+                    }
+                    Log.d(TAG, "Image saved to gallery: $imageUri")
+                    return imageUri.toString()
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to save to gallery: ${e.message}", e)
+            // If we failed, try to cleanup the empty file
+            if (imageUri != null) {
+                try {
+                    context.contentResolver.delete(imageUri, null, null)
+                } catch (cleanupEx: Exception) {
+                    // Ignore
+                }
+            }
+        } finally {
+            try {
+                fos?.close()
+            } catch (e: Exception) {
+                // Ignore
+            }
+        }
+        return null
     }
 
     /**
@@ -195,6 +268,27 @@ class QuickVisionStorage(private val context: Context) {
             File(path).delete()
         } catch (e: Exception) {
             Log.e(TAG, "Failed to delete thumbnail: ${e.message}", e)
+        }
+    }
+
+    private fun saveFullImage(id: String, bitmap: Bitmap): String? {
+        return try {
+            val file = File(imagesDir, "${id}.jpg")
+            FileOutputStream(file).use { out ->
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out)
+            }
+            file.absolutePath
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to save full image: ${e.message}", e)
+            null
+        }
+    }
+
+    private fun deleteImage(path: String) {
+        try {
+            File(path).delete()
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to delete image: ${e.message}", e)
         }
     }
 }

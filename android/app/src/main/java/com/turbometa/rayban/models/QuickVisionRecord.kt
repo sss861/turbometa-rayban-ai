@@ -10,6 +10,7 @@ data class QuickVisionRecord(
     val id: String = UUID.randomUUID().toString(),
     val timestamp: Long = System.currentTimeMillis(),
     val thumbnailPath: String,        // Local file path for thumbnail image
+    val imagePath: String? = null,
     val prompt: String,               // The prompt/question used
     val result: String,               // AI analysis result
     val mode: QuickVisionMode = QuickVisionMode.STANDARD,

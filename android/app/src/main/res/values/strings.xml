@@ -202,6 +202,8 @@
     <string name="delete_confirm_message">Are you sure you want to delete all conversation records? This action cannot be undone.</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="test_gallery_save">Test Gallery Save</string>
+    <string name="test_gallery_save_desc">Create a test image in TourMeta album</string>
 
     <!-- API Key Settings -->
     <string name="apikey_title">API Key Settings</string>

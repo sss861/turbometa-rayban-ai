@@ -99,8 +99,8 @@ class VisionAPIService(
 
             // Add OpenRouter-specific headers
             if (currentProvider == APIProvider.OPENROUTER) {
-                requestBuilder.addHeader("HTTP-Referer", "https://turbometa.app")
-                requestBuilder.addHeader("X-Title", "TurboMeta")
+                requestBuilder.addHeader("HTTP-Referer", "https://tourmeta.app")
+                requestBuilder.addHeader("X-Title", "TourMeta")
             }
 
             val request = requestBuilder

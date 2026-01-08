@@ -267,6 +267,11 @@ class QuickVisionService : Service(), TextToSpeech.OnInitListener {
                 // 6. Analyze the captured frame
                 val image = capturedFrame
                 if (image != null) {
+                    // Automatically save to gallery
+                    launch(Dispatchers.IO) {
+                        quickVisionStorage.saveToGallery(image)
+                    }
+
                     Log.d(TAG, "Analyzing captured image: ${image.width}x${image.height}")
                     broadcastStatus("analyzing")
                     updateNotification(getLocalizedString("analyzing"))
@@ -438,6 +443,12 @@ class QuickVisionService : Service(), TextToSpeech.OnInitListener {
                 isJapanese -> "画像分析に失敗しました"
                 isKorean -> "이미지 분석 실패"
                 else -> "Image analysis failed"
+            }
+            "photo_saved" -> when {
+                isChinese -> "已保存到相册"
+                isJapanese -> "アルバムに保存しました"
+                isKorean -> "앨범에 저장됨"
+                else -> "Saved to album"
             }
             else -> key
         }

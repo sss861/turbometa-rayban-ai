@@ -564,14 +564,13 @@ private fun QuickVisionDetailScreen(
                 .padding(horizontal = AppSpacing.medium),
             verticalArrangement = Arrangement.spacedBy(AppSpacing.medium)
         ) {
-            // Thumbnail Image
+            // Image display (prefer full image if available)
             item {
-                val thumbnailBitmap = remember(record.thumbnailPath) {
+                val displayBitmap = remember(record.imagePath, record.thumbnailPath) {
                     try {
-                        val file = File(record.thumbnailPath)
-                        if (file.exists()) {
-                            BitmapFactory.decodeFile(file.absolutePath)
-                        } else null
+                        val primaryPath = record.imagePath
+                        val file = if (!primaryPath.isNullOrBlank()) File(primaryPath) else File(record.thumbnailPath)
+                        if (file.exists()) BitmapFactory.decodeFile(file.absolutePath) else null
                     } catch (e: Exception) {
                         null
                     }
@@ -581,9 +580,9 @@ private fun QuickVisionDetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(AppRadius.medium)
                 ) {
-                    if (thumbnailBitmap != null) {
+                    if (displayBitmap != null) {
                         Image(
-                            bitmap = thumbnailBitmap.asImageBitmap(),
+                            bitmap = displayBitmap.asImageBitmap(),
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxWidth()

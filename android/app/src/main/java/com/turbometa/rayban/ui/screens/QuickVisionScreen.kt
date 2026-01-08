@@ -226,6 +226,8 @@ fun QuickVisionScreen(
         photoForAnalysis = photo
         Log.d(TAG, "📸 Photo captured: ${photo.width}x${photo.height}")
 
+        quickVisionStorage.saveToGallery(photo)
+
         // Step 5: Stop stream immediately after capture
         Log.d(TAG, "🛑 Stopping stream...")
         wearablesViewModel.stopStream()
