@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -37,6 +38,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.turbometa.rayban.R
 import com.turbometa.rayban.data.QuickVisionStorage
 import com.turbometa.rayban.models.QuickVisionRecord
+import com.turbometa.rayban.ui.components.ConfirmDialog
 import com.turbometa.rayban.ui.theme.*
 import java.io.File
 
@@ -48,7 +50,8 @@ fun GalleryScreen(
     val context = LocalContext.current
     val storage = remember { QuickVisionStorage.getInstance(context) }
     var records by remember { mutableStateOf<List<QuickVisionRecord>>(emptyList()) }
-    var selectedPath by remember { mutableStateOf<String?>(null) }
+    var selectedRecord by remember { mutableStateOf<QuickVisionRecord?>(null) }
+    var showDeleteConfirm by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         records = storage.getAllRecords()
@@ -134,9 +137,7 @@ fun GalleryScreen(
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = null,
-                                onClick = {
-                                    selectedPath = record.imagePath ?: record.thumbnailPath
-                                }
+                                onClick = { selectedRecord = record }
                             ),
                         shape = RoundedCornerShape(AppRadius.medium)
                     ) {
@@ -170,9 +171,9 @@ fun GalleryScreen(
         }
     }
 
-    selectedPath?.let { path ->
+    selectedRecord?.let { rec ->
         Dialog(
-            onDismissRequest = { selectedPath = null },
+            onDismissRequest = { selectedRecord = null },
             properties = DialogProperties(usePlatformDefaultWidth = false)
         ) {
             Box(
@@ -181,9 +182,10 @@ fun GalleryScreen(
                     .background(color = Color.Black),
                 contentAlignment = Alignment.Center
             ) {
-                val bitmap = remember(path) {
+                val displayPath = rec.imagePath ?: rec.thumbnailPath
+                val bitmap = remember(displayPath) {
                     try {
-                        val file = File(path)
+                        val file = File(displayPath)
                         if (file.exists()) BitmapFactory.decodeFile(file.absolutePath) else null
                     } catch (e: Exception) {
                         null
@@ -222,7 +224,7 @@ fun GalleryScreen(
                         )
 
                         IconButton(
-                            onClick = { selectedPath = null },
+                            onClick = { selectedRecord = null },
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
                                 .padding(AppSpacing.medium)
@@ -233,9 +235,41 @@ fun GalleryScreen(
                                 tint = Color.White
                             )
                         }
+
+                        IconButton(
+                            onClick = { showDeleteConfirm = true },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(AppSpacing.medium)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete",
+                                tint = Error
+                            )
+                        }
                     }
                 }
             }
         }
+    }
+
+    if (showDeleteConfirm && selectedRecord != null) {
+        ConfirmDialog(
+            title = stringResource(R.string.delete_record),
+            message = stringResource(R.string.delete_record_confirm),
+            confirmText = stringResource(R.string.delete),
+            dismissText = stringResource(R.string.cancel),
+            onConfirm = {
+                val id = selectedRecord!!.id
+                val success = storage.deleteRecord(id)
+                if (success) {
+                    records = records.filter { it.id != id }
+                    selectedRecord = null
+                }
+                showDeleteConfirm = false
+            },
+            onDismiss = { showDeleteConfirm = false }
+        )
     }
 }

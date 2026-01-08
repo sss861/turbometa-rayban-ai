@@ -175,25 +175,30 @@ fun QuickVisionScreen(
         statusText = lookingText
         speak(lookingText)
 
-        // Step 2: Start stream if not already streaming
-        if (streamState !is WearablesViewModel.StreamState.Streaming) {
-            Log.d(TAG, "📹 Starting stream...")
+        val originalQuality = apiKeyManager.getVideoQuality()
+        var startAttempts = 0
+        while (streamState !is WearablesViewModel.StreamState.Streaming && startAttempts < 2) {
             wearablesViewModel.startStream()
-
-            // Wait for stream to be ready (max 5 seconds)
             var streamWait = 0
-            while (streamState !is WearablesViewModel.StreamState.Streaming && streamWait < 50) {
+            while (streamState !is WearablesViewModel.StreamState.Streaming && streamWait < 60) {
                 delay(100)
                 streamWait++
             }
-
             if (streamState !is WearablesViewModel.StreamState.Streaming) {
-                Log.e(TAG, "❌ Failed to start stream")
-                errorMessage = streamFailedText
-                speak(streamFailedText)
-                isProcessing = false
-                return
+                wearablesViewModel.stopStream()
+                if (startAttempts == 0) {
+                    apiKeyManager.saveVideoQuality("LOW")
+                    delay(500)
+                }
             }
+            startAttempts++
+        }
+        if (streamState !is WearablesViewModel.StreamState.Streaming) {
+            errorMessage = streamFailedText
+            speak(streamFailedText)
+            isProcessing = false
+            apiKeyManager.saveVideoQuality(originalQuality)
+            return
         }
 
         // Step 3: Wait for stream to stabilize
@@ -231,6 +236,7 @@ fun QuickVisionScreen(
         // Step 5: Stop stream immediately after capture
         Log.d(TAG, "🛑 Stopping stream...")
         wearablesViewModel.stopStream()
+        apiKeyManager.saveVideoQuality(originalQuality)
 
         // Step 6: Analyze with Vision API
         statusText = lookingText
