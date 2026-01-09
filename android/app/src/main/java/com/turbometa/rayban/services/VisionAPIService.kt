@@ -164,6 +164,16 @@ class VisionAPIService(
                 4. 总字数控制在50字以内
                 5. 直接描述，不要说"图片中"或"我看到"
             """.trimIndent()
+            "zh-HK" -> """
+                你是智能眼鏡AI助手。請用簡潔的繁體中文描述圖片內容，適合語音播報。
+
+                要求：
+                1. 用1-2句描述主要內容
+                2. 語言自然、口語化
+                3. 不要使用過多標點符號
+                4. 總字數控制在50字以內
+                5. 直接描述，不要說「圖片中」或「我看到」
+            """.trimIndent()
             "en-US" -> """
                 You are a smart glasses AI assistant. Please describe the image content concisely, suitable for voice announcement.
 

@@ -32,6 +32,11 @@ class APIKeyManager(context: Context) {
         private const val KEY_OUTPUT_LANGUAGE = "output_language"
         private const val KEY_VIDEO_QUALITY = "video_quality"
         private const val KEY_RTMP_URL = "rtmp_url"
+        private const val KEY_VISITOR_AGE = "visitor_age"
+        private const val KEY_VISITOR_AGE_GROUP = "visitor_age_group"
+        private const val KEY_GUIDE_STYLE = "guide_style"
+        private const val KEY_BLIND_MODE = "blind_mode"
+        private const val KEY_ONBOARDING_DONE = "onboarding_done"
 
         @Volatile
         private var instance: APIKeyManager? = null
@@ -222,6 +227,48 @@ class APIKeyManager(context: Context) {
     fun getRtmpUrl(): String? {
         return sharedPreferences.getString(KEY_RTMP_URL, null)
     }
+
+    fun saveVisitorAge(age: Int) {
+        sharedPreferences.edit().putInt(KEY_VISITOR_AGE, age).apply()
+    }
+
+    fun getVisitorAge(): Int {
+        return sharedPreferences.getInt(KEY_VISITOR_AGE, 30)
+    }
+
+    fun saveVisitorAgeGroup(group: AgeGroup) {
+        sharedPreferences.edit().putString(KEY_VISITOR_AGE_GROUP, group.name).apply()
+    }
+
+    fun getVisitorAgeGroup(): AgeGroup {
+        val v = sharedPreferences.getString(KEY_VISITOR_AGE_GROUP, AgeGroup.ADULT_18_30.name) ?: AgeGroup.ADULT_18_30.name
+        return AgeGroup.valueOf(v)
+    }
+
+    fun saveGuideStyle(style: GuideStyle) {
+        sharedPreferences.edit().putString(KEY_GUIDE_STYLE, style.name).apply()
+    }
+
+    fun getGuideStyle(): GuideStyle {
+        val v = sharedPreferences.getString(KEY_GUIDE_STYLE, GuideStyle.STORYTELLING.name) ?: GuideStyle.STORYTELLING.name
+        return GuideStyle.valueOf(v)
+    }
+
+    fun saveBlindMode(enabled: Boolean) {
+        sharedPreferences.edit().putBoolean(KEY_BLIND_MODE, enabled).apply()
+    }
+
+    fun isBlindMode(): Boolean {
+        return sharedPreferences.getBoolean(KEY_BLIND_MODE, false)
+    }
+
+    fun setOnboardingDone(done: Boolean) {
+        sharedPreferences.edit().putBoolean(KEY_ONBOARDING_DONE, done).apply()
+    }
+
+    fun isOnboardingDone(): Boolean {
+        return sharedPreferences.getBoolean(KEY_ONBOARDING_DONE, false)
+    }
 }
 
 // Available AI models for Live AI
@@ -236,6 +283,7 @@ enum class AIModel(val id: String, val displayName: String) {
 // Available output languages
 enum class OutputLanguage(val code: String, val displayName: String, val nativeName: String) {
     CHINESE("zh-CN", "Chinese", "\u4e2d\u6587"),
+    TRADITIONAL_CHINESE("zh-HK", "Chinese (Traditional)", "\u7e41\u9ad4\u4e2d\u6587"),
     ENGLISH("en-US", "English", "English"),
     JAPANESE("ja-JP", "Japanese", "\u65e5\u672c\u8a9e"),
     KOREAN("ko-KR", "Korean", "\ud55c\uad6d\uc5b4"),
@@ -248,4 +296,20 @@ enum class StreamQuality(val id: String, val displayNameResId: Int, val descript
     LOW("LOW", com.tourmeta.app.R.string.quality_low, com.tourmeta.app.R.string.quality_low_desc),
     MEDIUM("MEDIUM", com.tourmeta.app.R.string.quality_medium, com.tourmeta.app.R.string.quality_medium_desc),
     HIGH("HIGH", com.tourmeta.app.R.string.quality_high, com.tourmeta.app.R.string.quality_high_desc)
+}
+
+enum class GuideStyle(val id: String, val displayNameResId: Int) {
+    CONCISE("concise", com.tourmeta.app.R.string.guide_style_concise),
+    STORYTELLING("story", com.tourmeta.app.R.string.guide_style_story),
+    ACADEMIC("academic", com.tourmeta.app.R.string.guide_style_academic);
+    fun getDisplayName(context: Context): String = context.getString(displayNameResId)
+}
+
+enum class AgeGroup(val displayNameResId: Int) {
+    CHILD_UNDER_12(com.tourmeta.app.R.string.age_child_under_12),
+    TEEN_12_18(com.tourmeta.app.R.string.age_teen_12_18),
+    ADULT_18_30(com.tourmeta.app.R.string.age_adult_18_30),
+    ADULT_30_50(com.tourmeta.app.R.string.age_adult_30_50),
+    SENIOR_OVER_50(com.tourmeta.app.R.string.age_senior_over_50);
+    fun getDisplayName(context: Context): String = context.getString(displayNameResId)
 }

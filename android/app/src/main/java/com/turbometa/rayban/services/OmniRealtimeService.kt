@@ -14,6 +14,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.tourmeta.app.managers.AlibabaEndpoint
 import com.tourmeta.app.managers.LiveAIModeManager
+import com.tourmeta.app.utils.APIKeyManager
+import com.tourmeta.app.utils.AgeGroup
+import com.tourmeta.app.utils.GuideStyle
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -200,7 +203,11 @@ class OmniRealtimeService(
         // Use mode manager if context is available, otherwise fall back to language-based prompt
         val instructions = context?.let {
             val modeManager = LiveAIModeManager.getInstance(it)
-            modeManager.getSystemPrompt()
+            val api = APIKeyManager.getInstance(it)
+            val ageGroup = api.getVisitorAgeGroup()
+            val style = api.getGuideStyle()
+            val base = modeManager.getSystemPrompt()
+            enhancePromptWithPreferences(base, ageGroup, style, outputLanguage)
         } ?: getLiveAIPrompt(outputLanguage)
 
         val sessionConfig = mapOf(
@@ -238,6 +245,15 @@ class OmniRealtimeService(
     3. 必须始终用中文回答，语气要亲切、专业，像在现场为游客一对一讲解一样。
     4. 回答要重点突出，引导用户观察展品的细节。
 """.trimIndent()
+            "zh-HK" -> """
+    你是一位專業的博物館資深導覽員。
+    
+    【重要】用戶目前正佩戴 Ray-Ban Meta 智能眼鏡參觀博物館。
+    1. 你的職責是識別眼鏡拍攝到的展品、文物或藝術品。
+    2. 請詳細且生動地講解它們的歷史背景、藝術特色與文化內涵。
+    3. 必須始終用繁體中文回答，語氣要親切、專業，像在現場為遊客一對一講解。
+    4. 回答要重點突出，引導用戶觀察展品細節。
+""".trimIndent()
 
             "en-US" -> """
     You are a professional museum tour guide.
@@ -270,6 +286,61 @@ class OmniRealtimeService(
 """.trimIndent()
             else -> getLiveAIPrompt("en-US")
         }
+    }
+
+    private fun enhancePromptWithPreferences(
+        basePrompt: String,
+        ageGroup: AgeGroup,
+        style: GuideStyle,
+        language: String
+    ): String {
+        val styleInstruction = when (style) {
+            GuideStyle.CONCISE -> when (language) {
+                "zh-CN" -> "请用简洁直观的方式讲解，突出关键点和直观观察。"
+                "zh-HK" -> "請用簡潔直觀的方式講解，突出關鍵點與直觀觀察。"
+                else -> "Keep explanations concise and direct, highlighting key points."
+            }
+            GuideStyle.STORYTELLING -> when (language) {
+                "zh-CN" -> "请采用讲故事的形式，关联历史人物与时代背景，增强沉浸感。"
+                "zh-HK" -> "請採用講故事的形式，關聯歷史人物與時代背景，增強沉浸感。"
+                else -> "Use storytelling, relate historical figures and context to engage."
+            }
+            GuideStyle.ACADEMIC -> when (language) {
+                "zh-CN" -> "请采用学术风格，增加术语与学术来源，但保持可理解。"
+                "zh-HK" -> "請採用學術風格，增加術語與學術來源，但保持可理解。"
+                else -> "Adopt an academic tone with terminology and sources, remain clear."
+            }
+        }
+
+        val ageInstruction = when (ageGroup) {
+            AgeGroup.CHILD_UNDER_12 -> when (language) {
+                "zh-CN" -> "面向12岁以下，请使用通俗易懂、富有趣味的语言，加入类比与互动提问。"
+                "zh-HK" -> "面向12歲以下，請使用通俗易懂、富有趣味的語言，加入類比與互動提問。"
+                else -> "For under 12, use simple, fun language with analogies and questions."
+            }
+            AgeGroup.TEEN_12_18 -> when (language) {
+                "zh-CN" -> "面向12-18岁，请增强互动与探索感，兼顾知识性与趣味性。"
+                "zh-HK" -> "面向12–18歲，請增強互動與探索感，兼顧知識性與趣味性。"
+                else -> "For 12–18, keep interactive and exploratory, balancing facts and fun."
+            }
+            AgeGroup.ADULT_18_30 -> when (language) {
+                "zh-CN" -> "面向18-30岁，请深入但不冗长，强调现代关联与跨学科联系。"
+                "zh-HK" -> "面向18–30歲，請深入但不冗長，強調現代關聯與跨學科聯繫。"
+                else -> "For 18–30, be insightful but concise; relate to modern, cross-disciplinary links."
+            }
+            AgeGroup.ADULT_30_50 -> when (language) {
+                "zh-CN" -> "面向30-50岁，请保持结构清晰，适度深入历史与工艺细节。"
+                "zh-HK" -> "面向30–50歲，請保持結構清晰，適度深入歷史與工藝細節。"
+                else -> "For 30–50, clear structure with moderate depth into history and craft."
+            }
+            AgeGroup.SENIOR_OVER_50 -> when (language) {
+                "zh-CN" -> "面向50岁以上，请语速适中、重点清晰，多做阶段性小结。"
+                "zh-HK" -> "面向50歲以上，請語速適中、重點清晰，多做階段性小結。"
+                else -> "For 50+, moderate pace, clear highlights, include brief summaries."
+            }
+        }
+
+        return listOf(basePrompt.trim(), styleInstruction, ageInstruction).joinToString("\n\n")
     }
 
     private fun sendAudioData(audioData: ByteArray) {

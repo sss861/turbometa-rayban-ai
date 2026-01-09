@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="topbar_title">Assistant de guide de musée TourMeta</string>
+    <string name="onboarding_welcome">Bienvenue dans le Guide intelligent du musée</string>
+    <string name="onboarding_select_language">Sélectionner la langue</string>
+    <string name="onboarding_device_connection">Connexion de l’appareil</string>
+    <string name="accessibility">Accessibilité</string>
+    <string name="blind_mode_title">Mode accessibilité</string>
+    <string name="onboarding_next">Suivant</string>
+    <string name="onboarding_age">Âge</string>
+    <string name="onboarding_age_input_label">Saisir l’âge</string>
+    <string name="onboarding_age_group_label">Groupe d’âge :</string>
+    <string name="onboarding_age_invalid">Veuillez saisir un âge valide (chiffres)</string>
+    <string name="onboarding_guide_style">Style de guide</string>
+    <string name="onboarding_start_visit">Commencer la visite</string>
+    <string name="connect_glasses">Connecter les lunettes</string>
+    <string name="disconnect">Déconnecter</string>
+    <string name="connected">Connecté</string>
+    <string name="searching">Recherche…</string>
+    <string name="connecting">Connexion…</string>
+    <string name="error">Erreur</string>
+    <string name="disconnected">Non connecté</string>
+    <string name="age_child_under_12">Moins de 12 ans</string>
+    <string name="age_teen_12_18">12–18 ans</string>
+    <string name="age_adult_18_30">18–30 ans</string>
+    <string name="age_adult_30_50">30–50 ans</string>
+    <string name="age_senior_over_50">Plus de 50 ans</string>
+    <string name="guide_style_concise">Concis et direct</string>
+    <string name="guide_style_story">Narratif</string>
+    <string name="guide_style_academic">Académique</string>
+    <string name="home">Accueil</string>
+    <string name="records">Historique</string>
+    <string name="gallery">Galerie</string>
+    <string name="settings">Paramètres</string>
+</resources>

@@ -202,8 +202,6 @@
     <string name="delete_confirm_message">Are you sure you want to delete all conversation records? This action cannot be undone.</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
-    <string name="test_gallery_save">Test Gallery Save</string>
-    <string name="test_gallery_save_desc">Create a test image in TourMeta album</string>
 
     <!-- API Key Settings -->
     <string name="apikey_title">API Key Settings</string>
@@ -214,6 +212,8 @@
     <string name="apikey_get_key">Get API Key</string>
     <string name="apikey_saved">API Key saved successfully</string>
     <string name="apikey_deleted">API Key deleted</string>
+    <string name="test_gallery_save">Test Gallery Save</string>
+    <string name="test_gallery_save_desc">Create a test image in TourMeta album</string>
 
     <!-- Languages -->
     <string name="lang_zh">Chinese</string>
@@ -317,6 +317,28 @@
     <string name="wakeword_disabled_desc">Wake word detection is off</string>
     <string name="background_running">Background Running</string>
     <string name="background_running_desc">Allow app to run in background</string>
+    
+    <string name="topbar_title">TourMeta Museum Guide Assistant</string>
+    <string name="onboarding_welcome">Welcome to the Museum Smart Guide</string>
+    <string name="onboarding_select_language">Select Language</string>
+    <string name="onboarding_device_connection">Device Connection</string>
+    <string name="accessibility">Accessibility</string>
+    <string name="blind_mode_title">Accessibility Mode</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_age">Age</string>
+    <string name="onboarding_age_input_label">Enter age</string>
+    <string name="onboarding_age_group_label">Age Group:</string>
+    <string name="onboarding_age_invalid">Please enter a valid age (numbers)</string>
+    <string name="onboarding_guide_style">Guide Style</string>
+    <string name="onboarding_start_visit">Start Tour</string>
+    <string name="age_child_under_12">Under 12</string>
+    <string name="age_teen_12_18">12–18</string>
+    <string name="age_adult_18_30">18–30</string>
+    <string name="age_adult_30_50">30–50</string>
+    <string name="age_senior_over_50">Over 50</string>
+    <string name="guide_style_concise">Concise &amp; direct</string>
+    <string name="guide_style_story">Storytelling</string>
+    <string name="guide_style_academic">Academic</string>
 
     <!-- Quick Vision Mode Settings -->
     <string name="quickvision_mode_settings">Quick Vision Settings</string>
@@ -332,7 +354,7 @@
     <string name="quickvision_mode_health">Health</string>
     <string name="quickvision_mode_health_desc">Analyze food nutrition and health</string>
     <string name="quickvision_mode_blind">Accessibility</string>
-    <string name="quickvision_mode_blind_desc">Detailed environment description for visually impaired</string>
+    <string name="quickvision_mode_blind_desc">Describe surroundings and provide exhibition narration for visually impaired</string>
     <string name="quickvision_mode_reading">Reading</string>
     <string name="quickvision_mode_reading_desc">Read and recognize text in images</string>
     <string name="quickvision_mode_translate">Translate</string>
@@ -358,11 +380,15 @@
     <string name="liveai_mode_museum">Museum Guide</string>
     <string name="liveai_mode_museum_desc">Professional museum exhibition guide</string>
     <string name="liveai_mode_blind">Accessibility</string>
-    <string name="liveai_mode_blind_desc">Environment description for visually impaired</string>
+    <string name="liveai_mode_blind_desc">Describe environment and provide exhibition narration</string>
     <string name="liveai_mode_reading">Reading Assistant</string>
     <string name="liveai_mode_reading_desc">Help read and understand text</string>
     <string name="liveai_mode_translate">Translator</string>
     <string name="liveai_mode_translate_desc">Real-time translation assistant</string>
+    <string name="liveai_mode_child">Child Mode</string>
+    <string name="liveai_mode_child_desc">Explain exhibits in kid-friendly style</string>
+    <string name="liveai_mode_senior">Senior Mode</string>
+    <string name="liveai_mode_senior_desc">Clear, paced explanations for seniors</string>
     <string name="liveai_mode_custom">Custom</string>
     <string name="liveai_mode_custom_desc">Use your own custom system prompt</string>
 
@@ -380,8 +406,10 @@
     <!-- Live AI Mode Prompts -->
     <string name="prompt_liveai_standard">You are a professional museum tour guide. Identify artifacts through the glasses and explain their history and artistic value in a vivid and professional way. Focus on: 1. Historical background; 2. Artistic features; 3. Interesting anecdotes. Make the visit engaging for the visitor.</string>
     <string name="prompt_liveai_museum">You are a professional museum guide AI assistant.\n\n[IMPORTANT] Always respond in English.\n\nWhen the user looks at an exhibit, provide:\n1. Name and basic information\n2. Historical background and cultural significance\n3. Interesting stories or facts\n4. Connections to other exhibits\n\nBe knowledgeable and engaging, like a professional guide.</string>
-    <string name="prompt_liveai_blind">You are an AI assistant for visually impaired users wearing smart glasses.\n\n[IMPORTANT] Always respond in English.\n\nYour task is to help users understand their surroundings:\n1. Describe objects, people, and environment in detail\n2. Use clear directional words (ahead, left, behind right, etc.)\n3. Point out obstacles or dangers\n4. Read signs, menus, and other text\n5. Provide safe, practical navigation advice\n\nSpeak clearly and prioritize the most important information.</string>
+    <string name="prompt_liveai_blind">You are an AI assistant for visually impaired users wearing smart glasses.\n\n[IMPORTANT] Always respond in English.\n\nYour task is to help users understand their surroundings and provide exhibition narration in museums:\n1. Describe objects, people, and environment in detail\n2. Use clear directional words (ahead, left, behind right, etc.)\n3. Point out obstacles or dangers\n4. Read signs, menus, and other text\n5. Provide safe, practical navigation advice\n6. When in museum context, provide exhibition narration (name, era, materials, background story, relation to current gallery)\n\nSpeak clearly and prioritize the most important information.</string>
     <string name="prompt_liveai_reading">You are a reading assistant AI.\n\n[IMPORTANT] Always respond in English.\n\nYour task is to help users read visible text:\n1. Accurately recognize and read all visible text\n2. Organize content in correct reading order\n3. For documents, explain the structure\n4. For foreign languages, read first then translate\n\nSpeak at moderate pace, clearly, like a professional reader.</string>
     <string name="prompt_liveai_translate">You are a real-time translation AI assistant.\n\n[IMPORTANT] Translation results must be in {LANGUAGE}.\n\nYour task is to help users understand foreign language content:\n1. Recognize text in the image\n2. Translate to {LANGUAGE}\n3. For menus or signs, explain their purpose\n4. Provide simple explanations for technical terms\n\nTranslations should be accurate, natural, and idiomatic.</string>
     <string name="prompt_liveai">You are a professional and knowledgeable museum docent. Your mission is to identify artifacts, artworks, or historical exhibits captured through the smart glasses. Please provide engaging, in-depth, and professional explanations focusing on their historical background, artistic significance, and cultural value. Use a storytelling tone to make the history come alive for the visitor.</string>
+    <string name="prompt_liveai_child">You are a friendly museum guide for kids.\n\n[IMPORTANT] Always respond in {LANGUAGE}.\n\nExplain exhibits using simple words, fun analogies, and short sentences:\n1. What is it and where it comes from\n2. Why it is special or interesting\n3. A fun fact or story\n\nKeep it cheerful, interactive, and easy to understand.</string>
+    <string name="prompt_liveai_senior">You are a clear, patient museum guide for seniors.\n\n[IMPORTANT] Always respond in {LANGUAGE}.\n\nProvide well-structured explanations:\n1. Name, time period, origin\n2. Historical background and significance\n3. Key visual features to notice\n\nUse moderate pace, highlight key points, and include brief summaries.</string>
 </resources>

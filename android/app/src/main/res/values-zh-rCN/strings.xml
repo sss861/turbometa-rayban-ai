@@ -200,8 +200,6 @@
     <string name="delete_confirm_message">确定要删除所有对话记录吗？此操作无法撤销。</string>
     <string name="delete">删除</string>
     <string name="cancel">取消</string>
-    <string name="test_gallery_save">测试相册保存</string>
-    <string name="test_gallery_save_desc">在 TourMeta 相册中创建一张测试图片</string>
 
     <!-- API Key Settings -->
     <string name="apikey_title">API Key 设置</string>
@@ -212,6 +210,8 @@
     <string name="apikey_get_key">获取 API Key</string>
     <string name="apikey_saved">API Key 保存成功</string>
     <string name="apikey_deleted">API Key 已删除</string>
+    <string name="test_gallery_save">测试相册保存</string>
+    <string name="test_gallery_save_desc">在 TourMeta 相册中创建一张测试图片</string>
 
     <!-- Languages -->
     <string name="lang_zh">中文</string>
@@ -315,6 +315,28 @@
     <string name="wakeword_disabled_desc">唤醒词检测已关闭</string>
     <string name="background_running">后台运行</string>
     <string name="background_running_desc">允许应用在后台运行</string>
+    
+    <string name="topbar_title">TourMeta博物馆导览助手</string>
+    <string name="onboarding_welcome">欢迎使用博物馆智能导览</string>
+    <string name="onboarding_select_language">选择语言</string>
+    <string name="onboarding_device_connection">设备连接</string>
+    <string name="accessibility">无障碍</string>
+    <string name="blind_mode_title">视障模式</string>
+    <string name="onboarding_next">下一步</string>
+    <string name="onboarding_age">年龄</string>
+    <string name="onboarding_age_input_label">请输入年龄</string>
+    <string name="onboarding_age_group_label">年龄分级：</string>
+    <string name="onboarding_age_invalid">请输入有效年龄（数字）</string>
+    <string name="onboarding_guide_style">讲解风格</string>
+    <string name="onboarding_start_visit">开始参观</string>
+    <string name="age_child_under_12">12岁以下</string>
+    <string name="age_teen_12_18">12-18岁</string>
+    <string name="age_adult_18_30">18-30岁</string>
+    <string name="age_adult_30_50">30-50岁</string>
+    <string name="age_senior_over_50">50岁以上</string>
+    <string name="guide_style_concise">简洁直观</string>
+    <string name="guide_style_story">讲故事</string>
+    <string name="guide_style_academic">学术深度</string>
     <string name="feature_quickvision_title">快速识图</string>
     <string name="feature_quickvision_subtitle">说 \"Jarvis\" 快速识图</string>
 
@@ -331,8 +353,8 @@
     <string name="quickvision_mode_standard_desc">通用图片描述</string>
     <string name="quickvision_mode_health">健康识图</string>
     <string name="quickvision_mode_health_desc">分析食物营养和健康程度</string>
-    <string name="quickvision_mode_blind">盲人模式</string>
-    <string name="quickvision_mode_blind_desc">为视障用户详细描述环境</string>
+    <string name="quickvision_mode_blind">视障模式</string>
+    <string name="quickvision_mode_blind_desc">为视障用户详细描述环境，并提供展品讲解</string>
     <string name="quickvision_mode_reading">阅读模式</string>
     <string name="quickvision_mode_reading_desc">识别并朗读图片中的文字</string>
     <string name="quickvision_mode_translate">翻译模式</string>
@@ -357,12 +379,16 @@
     <string name="liveai_mode_standard_desc">自由对话</string>
     <string name="liveai_mode_museum">博物馆模式</string>
     <string name="liveai_mode_museum_desc">专业博物馆讲解员</string>
-    <string name="liveai_mode_blind">盲人模式</string>
-    <string name="liveai_mode_blind_desc">为视障用户描述环境</string>
+    <string name="liveai_mode_blind">视障模式</string>
+    <string name="liveai_mode_blind_desc">为视障用户描述环境，并提供展品讲解</string>
     <string name="liveai_mode_reading">阅读助手</string>
     <string name="liveai_mode_reading_desc">帮助阅读和理解文字</string>
     <string name="liveai_mode_translate">翻译助手</string>
     <string name="liveai_mode_translate_desc">实时翻译助手</string>
+    <string name="liveai_mode_child">少儿模式</string>
+    <string name="liveai_mode_child_desc">面向儿童的展品讲解</string>
+    <string name="liveai_mode_senior">老年模式</string>
+    <string name="liveai_mode_senior_desc">语速适中、结构清晰的讲解</string>
     <string name="liveai_mode_custom">自定义</string>
     <string name="liveai_mode_custom_desc">使用自定义系统提示词</string>
 
@@ -381,7 +407,9 @@
     <!-- Live AI Mode Prompts -->
     <string name="prompt_liveai_standard">你是一位专业的博物馆讲解员。请通过眼镜画面识别文物，并用生动、专业的语言为游客讲解其历史和艺术价值。请重点关注：1. 展品的历史背景；2. 艺术特色与工艺；3. 相关的趣闻轶事。请始终使用中文回答，语气要像在现场导览一样亲切。</string>
     <string name="prompt_liveai_museum">你是一位专业的博物馆讲解员AI助手。\n\n【重要】必须始终用中文回答。\n\n当用户看向展品时，请提供：\n1. 展品名称和基本信息\n2. 历史背景和文化意义\n3. 有趣的故事或知识点\n4. 与其他展品的关联\n\n像一位知识渊博又风趣的讲解员，让参观变得生动有趣。</string>
-    <string name="prompt_liveai_blind">你是视障用户的智能眼镜助手。\n\n【重要】必须始终用中文回答。\n\n你的任务是帮助用户理解周围环境：\n1. 详细描述周围的物体、人和环境\n2. 使用清晰的方位词（前方、左侧、右后方等）\n3. 指出可能的障碍物或危险\n4. 朗读标识、菜单等文字内容\n5. 提供安全、实用的导航建议\n\n说话清晰、有条理，优先说最重要的信息。</string>
+    <string name="prompt_liveai_blind">你是视障用户的智能眼镜助手。\n\n【重要】必须始终用中文回答。\n\n你的任务是帮助用户理解周围环境，并提供展品讲解：\n1. 详细描述周围的物体、人和环境\n2. 使用清晰的方位词（前方、左侧、右后方等）\n3. 指出可能的障碍物或危险\n4. 朗读标识、菜单等文字内容\n5. 提供安全、实用的导航建议\n6. 在博物馆场景下，为展品提供讲解（名称、时代、材质、背景故事、与当前展厅的关联）\n\n说话清晰、有条理，优先说最重要的信息。</string>
     <string name="prompt_liveai_reading">你是阅读辅助AI助手。\n\n【重要】必须始终用中文回答。\n\n你的任务是帮助用户阅读看到的文字：\n1. 准确识别并朗读所有可见文字\n2. 按照正确的阅读顺序组织内容\n3. 对于文档，说明文字的结构\n4. 对于外语，先读原文再翻译\n\n语速适中，吐字清晰，像一位专业的朗读者。</string>
     <string name="prompt_liveai_translate">你是实时翻译AI助手。\n\n【重要】翻译结果必须使用{LANGUAGE}。\n\n你的任务是帮助用户理解看到的外语内容：\n1. 识别画面中的文字\n2. 翻译成{LANGUAGE}\n3. 如果是菜单或标识，说明其用途\n4. 对于专业术语，提供简单解释\n\n翻译要准确、自然、地道。</string>
+    <string name="prompt_liveai_child">你是一位面向儿童的友好博物馆讲解员。\n\n【重要】始终使用 {LANGUAGE} 回答。\n\n用通俗、趣味的方式讲解展品：\n1. 是什么、来自哪里\n2. 为什么特别或有趣\n3. 一个有趣的事实或小故事\n\n语气轻松、互动，句子简短、易理解。</string>
+    <string name="prompt_liveai_senior">你是一位面向老年人的耐心博物馆讲解员。\n\n【重要】始终使用 {LANGUAGE} 回答。\n\n讲解需结构清晰：\n1. 名称、年代、产地\n2. 历史背景与意义\n3. 需要注意的关键外观特征\n\n语速适中、重点清晰，并在段尾做简短小结。</string>
 </resources>

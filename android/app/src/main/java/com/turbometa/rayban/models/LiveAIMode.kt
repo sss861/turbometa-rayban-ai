@@ -13,6 +13,8 @@ enum class LiveAIMode(val id: String) {
     BLIND("blind"),         // 盲人模式
     READING("reading"),     // 阅读模式
     TRANSLATE("translate"), // 翻译模式
+    CHILD("child"),         // 少儿模式
+    SENIOR("senior"),       // 老年模式
     CUSTOM("custom");       // 自定义提示词
 
     fun getDisplayName(context: Context): String {
@@ -22,6 +24,8 @@ enum class LiveAIMode(val id: String) {
             BLIND -> context.getString(R.string.liveai_mode_blind)
             READING -> context.getString(R.string.liveai_mode_reading)
             TRANSLATE -> context.getString(R.string.liveai_mode_translate)
+            CHILD -> context.getString(R.string.liveai_mode_child)
+            SENIOR -> context.getString(R.string.liveai_mode_senior)
             CUSTOM -> context.getString(R.string.liveai_mode_custom)
         }
     }
@@ -33,6 +37,8 @@ enum class LiveAIMode(val id: String) {
             BLIND -> context.getString(R.string.liveai_mode_blind_desc)
             READING -> context.getString(R.string.liveai_mode_reading_desc)
             TRANSLATE -> context.getString(R.string.liveai_mode_translate_desc)
+            CHILD -> context.getString(R.string.liveai_mode_child_desc)
+            SENIOR -> context.getString(R.string.liveai_mode_senior_desc)
             CUSTOM -> context.getString(R.string.liveai_mode_custom_desc)
         }
     }
@@ -48,6 +54,8 @@ enum class LiveAIMode(val id: String) {
             BLIND -> context.getString(R.string.prompt_liveai_blind)
             READING -> context.getString(R.string.prompt_liveai_reading)
             TRANSLATE -> "" // 需要通过 Manager 获取（包含目标语言）
+            CHILD -> context.getString(R.string.prompt_liveai_child)
+            SENIOR -> context.getString(R.string.prompt_liveai_senior)
             CUSTOM -> "" // 需要通过 Manager 获取自定义内容
         }
     }
@@ -57,9 +65,9 @@ enum class LiveAIMode(val id: String) {
      */
     fun autoSendImageOnSpeech(): Boolean {
         return when (this) {
-            STANDARD -> true  // 默认模式：语音触发时发送图片
-            MUSEUM, BLIND, READING, TRANSLATE -> true  // 这些模式都需要看图
-            CUSTOM -> true  // 自定义模式也支持图片
+            STANDARD -> true
+            MUSEUM, BLIND, READING, TRANSLATE, CHILD, SENIOR -> true
+            CUSTOM -> true
         }
     }
 

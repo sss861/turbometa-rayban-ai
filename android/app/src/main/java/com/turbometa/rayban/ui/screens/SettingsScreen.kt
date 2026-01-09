@@ -17,7 +17,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -32,6 +31,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -43,13 +43,12 @@ import androidx.compose.foundation.lazy.items
 import com.tourmeta.app.managers.AlibabaEndpoint
 import com.tourmeta.app.managers.AlibabaVisionModel
 import com.tourmeta.app.managers.APIProvider
+import com.tourmeta.app.managers.OpenRouterModel
 import com.tourmeta.app.managers.AppLanguage
 import com.tourmeta.app.managers.LiveAIProvider
-import com.tourmeta.app.managers.OpenRouterModel
 import com.tourmeta.app.services.PorcupineWakeWordService
 import com.tourmeta.app.ui.components.*
 import com.tourmeta.app.ui.theme.*
-import com.tourmeta.app.utils.AIModel
 import com.tourmeta.app.utils.OutputLanguage
 import com.tourmeta.app.utils.StreamQuality
 import com.tourmeta.app.viewmodels.SettingsViewModel
@@ -413,15 +412,6 @@ fun SettingsScreen(
                     onClick = { viewModel.showDeleteConfirmDialog() },
                     isDestructive = true
                 )
-
-                HorizontalDivider(modifier = Modifier.padding(horizontal = AppSpacing.medium))
-
-                SettingsItem(
-                    icon = Icons.Default.Image,
-                    title = stringResource(R.string.test_gallery_save),
-                    subtitle = stringResource(R.string.test_gallery_save_desc),
-                    onClick = { viewModel.testSaveToGallery() }
-                )
             }
 
             // About Section
@@ -431,42 +421,6 @@ fun SettingsScreen(
                     title = stringResource(R.string.version),
                     subtitle = "1.5.0",
                     onClick = {}
-                )
-
-                HorizontalDivider(modifier = Modifier.padding(horizontal = AppSpacing.medium))
-
-                SettingsItem(
-                    icon = Icons.Default.Code,
-                    title = stringResource(R.string.github_project),
-                    subtitle = "turbometa-rayban-ai",
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Turbo1123/turbometa-rayban-ai"))
-                        context.startActivity(intent)
-                    }
-                )
-
-                HorizontalDivider(modifier = Modifier.padding(horizontal = AppSpacing.medium))
-
-                SettingsItem(
-                    icon = Icons.Default.Download,
-                    title = stringResource(R.string.download_latest),
-                    subtitle = stringResource(R.string.download_latest_desc),
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Turbo1123/turbometa-rayban-ai/releases"))
-                        context.startActivity(intent)
-                    }
-                )
-
-                HorizontalDivider(modifier = Modifier.padding(horizontal = AppSpacing.medium))
-
-                SettingsItem(
-                    icon = Icons.Default.Coffee,
-                    title = stringResource(R.string.support_development),
-                    subtitle = stringResource(R.string.buy_me_coffee),
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://buymeacoffee.com/turbo1123"))
-                        context.startActivity(intent)
-                    }
                 )
             }
 

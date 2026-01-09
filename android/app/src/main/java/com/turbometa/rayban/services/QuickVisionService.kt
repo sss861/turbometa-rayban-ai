@@ -33,6 +33,8 @@ import com.tourmeta.app.R
 import com.tourmeta.app.data.QuickVisionStorage
 import com.tourmeta.app.managers.APIProviderManager
 import com.tourmeta.app.managers.QuickVisionModeManager
+import com.tourmeta.app.managers.LanguageManager
+import com.tourmeta.app.managers.AppLanguage
 import com.tourmeta.app.utils.APIKeyManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -114,13 +116,23 @@ class QuickVisionService : Service(), TextToSpeech.OnInitListener {
     override fun onInit(status: Int) {
         Log.d(TAG, "TTS onInit called with status: $status")
         if (status == TextToSpeech.SUCCESS) {
-            // 保存系统语言（用于状态提示）
-            systemLocale = Locale.getDefault()
+            val appLang = LanguageManager.getCurrentLanguage()
+            systemLocale = when (appLang) {
+                AppLanguage.CHINESE -> Locale.CHINESE
+                AppLanguage.TRADITIONAL_CHINESE -> Locale("zh", "HK")
+                AppLanguage.ENGLISH -> Locale.US
+                AppLanguage.JAPANESE -> Locale.JAPANESE
+                AppLanguage.KOREAN -> Locale.KOREAN
+                AppLanguage.SPANISH -> Locale("es", "ES")
+                AppLanguage.FRENCH -> Locale.FRENCH
+                AppLanguage.SYSTEM -> Locale.getDefault()
+            }
 
             // 保存输出语言（用于AI回复）
             val language = apiKeyManager.getOutputLanguage()
             outputLocale = when (language) {
                 "zh-CN" -> Locale.CHINESE
+                "zh-HK" -> Locale("zh", "HK")
                 "en-US" -> Locale.US
                 "ja-JP" -> Locale.JAPANESE
                 "ko-KR" -> Locale.KOREAN
@@ -134,7 +146,14 @@ class QuickVisionService : Service(), TextToSpeech.OnInitListener {
             isTtsReady = result != TextToSpeech.LANG_MISSING_DATA &&
                     result != TextToSpeech.LANG_NOT_SUPPORTED
 
-            tts?.setSpeechRate(1.1f)
+            val blindMode = apiKeyManager.isBlindMode()
+            if (blindMode) {
+                tts?.setSpeechRate(0.95f)
+                tts?.setPitch(0.95f)
+            } else {
+                tts?.setSpeechRate(1.1f)
+                tts?.setPitch(1.0f)
+            }
 
             if (!isTtsReady) {
                 tts?.setLanguage(Locale.getDefault())
@@ -402,49 +421,56 @@ class QuickVisionService : Service(), TextToSpeech.OnInitListener {
     }
 
     private fun getLocalizedString(key: String): String {
-        // 使用系统语言来显示状态提示
         val isChinese = systemLocale.language == "zh"
+        val isZhHK = isChinese && systemLocale.country.equals("HK", true)
         val isJapanese = systemLocale.language == "ja"
         val isKorean = systemLocale.language == "ko"
 
         return when (key) {
             "looking" -> when {
+                isZhHK -> "正在識別"
                 isChinese -> "正在识别"
                 isJapanese -> "確認中"
                 isKorean -> "확인 중"
                 else -> "Looking"
             }
             "analyzing" -> when {
+                isZhHK -> "正在分析..."
                 isChinese -> "正在分析..."
                 isJapanese -> "分析中..."
                 isKorean -> "분석 중..."
                 else -> "Analyzing..."
             }
             "no_device" -> when {
+                isZhHK -> "眼鏡未連接"
                 isChinese -> "眼镜未连接"
                 isJapanese -> "メガネが接続されていません"
                 isKorean -> "안경이 연결되어 있지 않습니다"
                 else -> "Glasses not connected"
             }
             "no_image" -> when {
+                isZhHK -> "無法獲取圖像"
                 isChinese -> "无法获取图像"
                 isJapanese -> "画像を取得できません"
                 isKorean -> "이미지를 캡처할 수 없습니다"
                 else -> "Unable to capture image"
             }
             "error" -> when {
+                isZhHK -> "發生錯誤"
                 isChinese -> "发生错误"
                 isJapanese -> "エラーが発生しました"
                 isKorean -> "오류가 발생했습니다"
                 else -> "An error occurred"
             }
             "analysis_failed" -> when {
+                isZhHK -> "圖像分析失敗"
                 isChinese -> "图像分析失败"
                 isJapanese -> "画像分析に失敗しました"
                 isKorean -> "이미지 분석 실패"
                 else -> "Image analysis failed"
             }
             "photo_saved" -> when {
+                isZhHK -> "已保存到相冊"
                 isChinese -> "已保存到相册"
                 isJapanese -> "アルバムに保存しました"
                 isKorean -> "앨범에 저장됨"

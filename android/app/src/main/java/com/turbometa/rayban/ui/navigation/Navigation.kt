@@ -21,6 +21,8 @@ import com.tourmeta.app.R
 import com.tourmeta.app.ui.screens.*
 import com.tourmeta.app.ui.theme.Primary
 import com.tourmeta.app.viewmodels.WearablesViewModel
+import androidx.compose.ui.platform.LocalContext
+import com.tourmeta.app.utils.APIKeyManager
 
 sealed class Screen(val route: String) {
     object Home : Screen("home")
@@ -35,6 +37,7 @@ sealed class Screen(val route: String) {
     object RTMPStream : Screen("rtmp_stream")
     object QuickVisionMode : Screen("quick_vision_mode")
     object LiveAIMode : Screen("live_ai_mode")
+    object Onboarding : Screen("onboarding")
 }
 
 sealed class BottomNavItem(
@@ -55,6 +58,7 @@ fun TurboMetaNavigation(
     onRequestWearablesPermission: suspend (Permission) -> PermissionStatus
 ) {
     val navController = rememberNavController()
+    var startRoute by remember { mutableStateOf(Screen.Onboarding.route) }
 
     val bottomNavItems = listOf(
         BottomNavItem.Home,
@@ -105,9 +109,22 @@ fun TurboMetaNavigation(
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = startRoute,
             modifier = Modifier.padding(paddingValues)
         ) {
+            composable(Screen.Onboarding.route) {
+                OnboardingScreen(
+                    wearablesViewModel = wearablesViewModel,
+                    onFinished = {
+                        startRoute = Screen.Home.route
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                )
+            }
             composable(Screen.Home.route) {
                 HomeScreen(
                     wearablesViewModel = wearablesViewModel,

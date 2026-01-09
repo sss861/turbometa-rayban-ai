@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import java.io.ByteArrayOutputStream
 
 /**
@@ -110,6 +111,7 @@ class WearablesViewModel(application: Application) : AndroidViewModel(applicatio
     private var stateJob: Job? = null
     private var deviceSelectorJob: Job? = null
     private var monitoringStarted = false
+    private var connectJob: Job? = null
 
     // Callbacks for external use
     var onFrameReceived: ((Bitmap) -> Unit)? = null
@@ -199,6 +201,8 @@ class WearablesViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun disconnect() {
         viewModelScope.launch {
+            connectJob?.cancel()
+            connectJob = null
             stopStream()
             startUnregistration()
             _connectionState.value = ConnectionState.Disconnected
@@ -365,6 +369,29 @@ class WearablesViewModel(application: Application) : AndroidViewModel(applicatio
         }
 
         Log.d(TAG, "⏹️ stopStream END")
+    }
+
+    fun connectWithRetry(maxAttempts: Int = 3, attemptTimeoutMs: Long = 8000L) {
+        if (connectJob?.isActive == true) return
+        connectJob = viewModelScope.launch {
+            _connectionState.value = ConnectionState.Searching
+            repeat(maxAttempts) { attempt ->
+                startRegistration()
+                val startTime = System.currentTimeMillis()
+                while (System.currentTimeMillis() - startTime < attemptTimeoutMs) {
+                    if (_hasActiveDevice.value) {
+                        val current = _connectionState.value
+                        if (current !is ConnectionState.Connected) {
+                            _connectionState.value = ConnectionState.Connected("Device")
+                        }
+                        return@launch
+                    }
+                    delay(200)
+                }
+                delay(500)
+            }
+            _connectionState.value = ConnectionState.Error("连接失败")
+        }
     }
 
     /**

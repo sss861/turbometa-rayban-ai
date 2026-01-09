@@ -66,12 +66,10 @@ fun LiveAIScreen(
 
     val listState = rememberLazyListState()
 
-    // Connect to AI and start stream when entering LiveAI
-    // Note: Device connection is already verified before navigating here
     LaunchedEffect(Unit) {
-        // Start video stream first
-        wearablesViewModel.startStream()
-        // Then connect to AI
+        if (hasActiveDevice && streamState !is WearablesViewModel.StreamState.Streaming) {
+            wearablesViewModel.startStream()
+        }
         if (!viewModel.isConnected.value) {
             viewModel.connect()
         }
@@ -91,12 +89,11 @@ fun LiveAIScreen(
         }
     }
 
-    // Cleanup when leaving - CRITICAL: must stop stream
     DisposableEffect(Unit) {
         onDispose {
-            // Stop stream first
-            wearablesViewModel.stopStream()
-            // Then disconnect AI
+            if (streamState is WearablesViewModel.StreamState.Streaming) {
+                wearablesViewModel.stopStream()
+            }
             viewModel.disconnect()
         }
     }

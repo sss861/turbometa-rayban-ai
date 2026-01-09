@@ -354,6 +354,17 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun selectLanguage(language: OutputLanguage) {
         apiKeyManager.saveOutputLanguage(language.code)
         _selectedLanguage.value = language.code
+
+        // Auto-sync app language with output language
+        val appLang = when (language.code) {
+            "zh-CN" -> AppLanguage.CHINESE
+            "zh-HK" -> AppLanguage.TRADITIONAL_CHINESE
+            "en-US" -> AppLanguage.ENGLISH
+            else -> AppLanguage.ENGLISH
+        }
+        LanguageManager.setLanguage(getApplication(), appLang)
+        _appLanguage.value = appLang
+
         _showLanguageDialog.value = false
         _message.value = "Language changed to ${language.displayName}"
     }
@@ -375,11 +386,22 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         // Auto-sync output language with app language
         val outputLangCode = when (language) {
             AppLanguage.CHINESE -> "zh-CN"
+            AppLanguage.TRADITIONAL_CHINESE -> "zh-HK"
             AppLanguage.ENGLISH -> "en-US"
+            AppLanguage.JAPANESE -> "ja-JP"
+            AppLanguage.KOREAN -> "ko-KR"
+            AppLanguage.SPANISH -> "es-ES"
+            AppLanguage.FRENCH -> "fr-FR"
             AppLanguage.SYSTEM -> {
-                // Detect system language
                 val systemLocale = java.util.Locale.getDefault()
-                if (systemLocale.language == "zh") "zh-CN" else "en-US"
+                when (systemLocale.language) {
+                    "zh" -> "zh-CN"
+                    "ja" -> "ja-JP"
+                    "ko" -> "ko-KR"
+                    "es" -> "es-ES"
+                    "fr" -> "fr-FR"
+                    else -> "en-US"
+                }
             }
         }
         apiKeyManager.saveOutputLanguage(outputLangCode)
@@ -391,8 +413,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun getAppLanguageDisplayName(): String {
         return when (_appLanguage.value) {
             AppLanguage.SYSTEM -> "跟随系统 / System"
-            AppLanguage.CHINESE -> "中文"
-            AppLanguage.ENGLISH -> "English"
+            else -> _appLanguage.value.nativeName
         }
     }
 

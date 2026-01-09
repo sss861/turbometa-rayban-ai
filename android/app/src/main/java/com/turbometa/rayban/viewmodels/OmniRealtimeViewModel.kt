@@ -3,11 +3,15 @@ package com.tourmeta.app.viewmodels
 import android.app.Application
 import android.graphics.Bitmap
 import android.util.Log
+import android.media.AudioManager
+import android.media.ToneGenerator
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.tourmeta.app.data.ConversationStorage
 import com.tourmeta.app.managers.APIProviderManager
+import com.tourmeta.app.managers.LiveAIModeManager
 import com.tourmeta.app.managers.LiveAIProvider
+import com.tourmeta.app.models.LiveAIMode
 import com.tourmeta.app.models.ConversationMessage
 import com.tourmeta.app.models.ConversationRecord
 import com.tourmeta.app.models.MessageRole
@@ -38,6 +42,7 @@ class OmniRealtimeViewModel(application: Application) : AndroidViewModel(applica
     // Services
     private var omniService: OmniRealtimeService? = null
     private var geminiService: GeminiLiveService? = null
+    private var tone: ToneGenerator? = ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100)
 
     // Current provider
     private val _currentProvider = MutableStateFlow(providerManager.liveAIProvider.value)
@@ -148,15 +153,18 @@ class OmniRealtimeViewModel(application: Application) : AndroidViewModel(applica
 
             onSpeechStarted = {
                 _viewState.value = ViewState.Recording
+                playBeep(ToneGenerator.TONE_PROP_BEEP, 120)
             }
 
             onSpeechStopped = {
                 _viewState.value = ViewState.Processing
+                playBeep(ToneGenerator.TONE_PROP_NACK, 120)
             }
 
             onError = { error ->
                 _errorMessage.value = error
                 _viewState.value = ViewState.Error(error)
+                playBeep(ToneGenerator.TONE_PROP_NACK, 200)
             }
         }
 
@@ -192,20 +200,24 @@ class OmniRealtimeViewModel(application: Application) : AndroidViewModel(applica
 
             onSpeechStarted = {
                 _viewState.value = ViewState.Recording
+                playBeep(ToneGenerator.TONE_PROP_BEEP, 120)
             }
 
             onSpeechStopped = {
                 _viewState.value = ViewState.Processing
+                playBeep(ToneGenerator.TONE_PROP_NACK, 120)
             }
 
             onError = { error ->
                 _errorMessage.value = error
                 _viewState.value = ViewState.Error(error)
+                playBeep(ToneGenerator.TONE_PROP_NACK, 200)
             }
 
             onConnected = {
                 _isConnected.value = true
                 _viewState.value = ViewState.Connected
+                playBeep(ToneGenerator.TONE_PROP_ACK, 100)
             }
         }
 
@@ -218,6 +230,7 @@ class OmniRealtimeViewModel(application: Application) : AndroidViewModel(applica
                 _isConnected.value = connected
                 if (connected && _viewState.value == ViewState.Connecting) {
                     _viewState.value = ViewState.Connected
+                    playBeep(ToneGenerator.TONE_PROP_ACK, 100)
                 } else if (!connected && _viewState.value != ViewState.Idle) {
                     _viewState.value = ViewState.Idle
                 }
@@ -246,6 +259,7 @@ class OmniRealtimeViewModel(application: Application) : AndroidViewModel(applica
                 _isConnected.value = connected
                 if (connected && _viewState.value == ViewState.Connecting) {
                     _viewState.value = ViewState.Connected
+                    playBeep(ToneGenerator.TONE_PROP_ACK, 100)
                 } else if (!connected && _viewState.value != ViewState.Idle) {
                     _viewState.value = ViewState.Idle
                 }
@@ -397,5 +411,17 @@ class OmniRealtimeViewModel(application: Application) : AndroidViewModel(applica
         saveCurrentConversation()
         omniService?.disconnect()
         geminiService?.disconnect()
+        tone?.release()
+        tone = null
+    }
+
+    private fun playBeep(type: Int, durationMs: Int) {
+        val mode = LiveAIModeManager.getInstance(getApplication()).currentMode.value
+        if (mode == LiveAIMode.BLIND) {
+            try {
+                tone?.startTone(type, durationMs)
+            } catch (_: Exception) {
+            }
+        }
     }
 }

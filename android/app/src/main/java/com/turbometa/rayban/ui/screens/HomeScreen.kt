@@ -16,6 +16,7 @@ import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -66,6 +67,8 @@ fun HomeScreen(
     var showCameraPermissionDeniedDialog by remember { mutableStateOf(false) }
     // Loading state for permission check
     var isCheckingPermission by remember { mutableStateOf(false) }
+    // Avoid repeatedly asking wearables camera permission in one session
+    var wearablesPermissionRequested by rememberSaveable { mutableStateOf(false) }
 
     // Function to check camera permission and navigate
     fun checkCameraPermissionAndNavigate(onSuccess: () -> Unit) {
@@ -82,13 +85,19 @@ fun HomeScreen(
                     return@launch
                 }
 
-                // Request permission
-                val requestedStatus = onRequestWearablesPermission(permission)
-                isCheckingPermission = false
+                // Request permission once; if already requested and denied, do not re-prompt
+                if (!wearablesPermissionRequested) {
+                    val requestedStatus = onRequestWearablesPermission(permission)
+                    wearablesPermissionRequested = true
+                    isCheckingPermission = false
 
-                when (requestedStatus) {
-                    PermissionStatus.Granted -> onSuccess()
-                    PermissionStatus.Denied -> showCameraPermissionDeniedDialog = true
+                    when (requestedStatus) {
+                        PermissionStatus.Granted -> onSuccess()
+                        PermissionStatus.Denied -> showCameraPermissionDeniedDialog = true
+                    }
+                } else {
+                    isCheckingPermission = false
+                    showCameraPermissionDeniedDialog = true
                 }
             } catch (e: Exception) {
                 isCheckingPermission = false
@@ -280,19 +289,14 @@ fun HomeScreen(
                         gradientColors = listOf(LiveAIColor, LiveAIColor.copy(alpha = 0.7f)),
                         isLoading = isCheckingPermission,
                         onClick = {
-                            // First check device connection
-                            if (!hasActiveDevice) {
-                                showDeviceNotConnectedDialog = true
-                                return@FeatureCard
-                            }
                             // Then check API key
                             val apiKey = apiKeyManager.getAPIKey()
                             if (apiKey.isNullOrBlank()) {
                                 showApiKeyDialog = true
                                 return@FeatureCard
                             }
-                            // Finally check camera permission and navigate
-                            checkCameraPermissionAndNavigate { onNavigateToLiveAI() }
+                            // Navigate directly to LiveAI (camera optional)
+                            onNavigateToLiveAI()
                         }
                     )
 

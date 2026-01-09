@@ -180,7 +180,13 @@ fun LiveAIModeScreen(
         ) {
             // Mode Selection Section
             SettingsSectionCard(title = stringResource(R.string.liveai_mode_section)) {
-                LiveAIMode.entries.forEach { mode ->
+                val allowedModes = listOf(
+                    LiveAIMode.MUSEUM,
+                    LiveAIMode.BLIND,
+                    LiveAIMode.CHILD,
+                    LiveAIMode.SENIOR
+                )
+                allowedModes.forEach { mode ->
                     ModeSelectionItem(
                         mode = mode,
                         isSelected = currentMode == mode,
@@ -190,7 +196,7 @@ fun LiveAIModeScreen(
                         description = mode.getDescription(context),
                         onClick = { modeManager.setMode(mode) }
                     )
-                    if (mode != LiveAIMode.entries.last()) {
+                    if (mode != allowedModes.last()) {
                         HorizontalDivider(modifier = Modifier.padding(horizontal = AppSpacing.medium))
                     }
                 }
@@ -404,6 +410,8 @@ private fun getLiveAIModeIcon(mode: LiveAIMode): ImageVector {
         LiveAIMode.BLIND -> Icons.Default.Accessibility
         LiveAIMode.READING -> Icons.Default.MenuBook
         LiveAIMode.TRANSLATE -> Icons.Default.Translate
+        LiveAIMode.CHILD -> Icons.Default.ChildCare
+        LiveAIMode.SENIOR -> Icons.Default.Elderly
         LiveAIMode.CUSTOM -> Icons.Default.Edit
     }
 }
@@ -415,6 +423,8 @@ private fun getLiveAIModeColor(mode: LiveAIMode): Color {
         LiveAIMode.BLIND -> Color(0xFF9C27B0) // Purple
         LiveAIMode.READING -> Success
         LiveAIMode.TRANSLATE -> Color(0xFFFF9800) // Orange
+        LiveAIMode.CHILD -> Color(0xFF03A9F4) // Light Blue
+        LiveAIMode.SENIOR -> Color(0xFF4CAF50) // Green
         LiveAIMode.CUSTOM -> Color.Gray
     }
 }
