@@ -1,4 +1,4 @@
-package com.turbometa.rayban.viewmodels
+package com.tourmeta.app.viewmodels
 
 import android.app.Application
 import android.graphics.Bitmap
@@ -17,7 +17,7 @@ import com.meta.wearable.dat.camera.types.VideoFrame
 import com.meta.wearable.dat.camera.types.VideoQuality
 import com.meta.wearable.dat.core.Wearables
 import com.meta.wearable.dat.core.selectors.AutoDeviceSelector
-import com.turbometa.rayban.utils.APIKeyManager
+import com.tourmeta.app.utils.APIKeyManager
 import com.meta.wearable.dat.core.selectors.DeviceSelector
 import com.meta.wearable.dat.core.types.DeviceIdentifier
 import com.meta.wearable.dat.core.types.Permission

@@ -1,4 +1,4 @@
-package com.turbometa.rayban.managers
+package com.tourmeta.app.managers
 
 import android.app.LocaleManager
 import android.content.Context

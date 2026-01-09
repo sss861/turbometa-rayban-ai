@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.theme
+package com.tourmeta.app.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

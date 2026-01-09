@@ -1,4 +1,4 @@
-package com.turbometa.rayban.managers
+package com.tourmeta.app.managers
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -377,14 +377,14 @@ class APIProviderManager private constructor(context: Context) {
     val liveAIWebSocketURL: String
         get() = _liveAIProvider.value.websocketURL(_alibabaEndpoint.value)
 
-    fun getLiveAIAPIKey(apiKeyManager: com.turbometa.rayban.utils.APIKeyManager): String {
+    fun getLiveAIAPIKey(apiKeyManager: com.tourmeta.app.utils.APIKeyManager): String {
         return when (_liveAIProvider.value) {
             LiveAIProvider.ALIBABA -> apiKeyManager.getAPIKey(APIProvider.ALIBABA, _alibabaEndpoint.value) ?: ""
             LiveAIProvider.GOOGLE -> apiKeyManager.getGoogleAPIKey() ?: ""
         }
     }
 
-    fun hasLiveAIAPIKey(apiKeyManager: com.turbometa.rayban.utils.APIKeyManager): Boolean {
+    fun hasLiveAIAPIKey(apiKeyManager: com.tourmeta.app.utils.APIKeyManager): Boolean {
         return getLiveAIAPIKey(apiKeyManager).isNotEmpty()
     }
 
@@ -393,7 +393,7 @@ class APIProviderManager private constructor(context: Context) {
     val currentBaseURL: String
         get() = _currentProvider.value.baseURL(_alibabaEndpoint.value)
 
-    fun getCurrentAPIKey(apiKeyManager: com.turbometa.rayban.utils.APIKeyManager): String {
+    fun getCurrentAPIKey(apiKeyManager: com.tourmeta.app.utils.APIKeyManager): String {
         return if (_currentProvider.value == APIProvider.ALIBABA) {
             apiKeyManager.getAPIKey(_currentProvider.value, _alibabaEndpoint.value) ?: ""
         } else {
@@ -404,7 +404,7 @@ class APIProviderManager private constructor(context: Context) {
     val currentModel: String
         get() = _selectedModel.value
 
-    fun hasAPIKey(apiKeyManager: com.turbometa.rayban.utils.APIKeyManager): Boolean {
+    fun hasAPIKey(apiKeyManager: com.tourmeta.app.utils.APIKeyManager): Boolean {
         return if (_currentProvider.value == APIProvider.ALIBABA) {
             apiKeyManager.hasAPIKey(_currentProvider.value, _alibabaEndpoint.value)
         } else {
@@ -414,7 +414,7 @@ class APIProviderManager private constructor(context: Context) {
 
     // MARK: - OpenRouter Models
 
-    suspend fun fetchOpenRouterModels(apiKeyManager: com.turbometa.rayban.utils.APIKeyManager) {
+    suspend fun fetchOpenRouterModels(apiKeyManager: com.tourmeta.app.utils.APIKeyManager) {
         if (_currentProvider.value != APIProvider.OPENROUTER) return
 
         val apiKey = apiKeyManager.getAPIKey(APIProvider.OPENROUTER)

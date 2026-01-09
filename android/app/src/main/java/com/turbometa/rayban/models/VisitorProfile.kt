@@ -1,4 +1,4 @@
-package com.turbometa.rayban.models
+package com.tourmeta.app.models
 
 data class VisitorProfile(
     val name: String = "",

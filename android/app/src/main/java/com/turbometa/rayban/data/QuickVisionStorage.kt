@@ -1,4 +1,4 @@
-package com.turbometa.rayban.data
+package com.tourmeta.app.data
 
 import android.content.ContentValues
 import android.content.Context
@@ -10,7 +10,7 @@ import android.provider.MediaStore
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.turbometa.rayban.models.QuickVisionRecord
+import com.tourmeta.app.models.QuickVisionRecord
 import java.io.File
 import java.io.FileOutputStream
 
@@ -59,7 +59,7 @@ class QuickVisionStorage(private val context: Context) {
         bitmap: Bitmap,
         prompt: String,
         result: String,
-        mode: com.turbometa.rayban.models.QuickVisionMode,
+        mode: com.tourmeta.app.models.QuickVisionMode,
         visionModel: String
     ): Boolean {
         return try {

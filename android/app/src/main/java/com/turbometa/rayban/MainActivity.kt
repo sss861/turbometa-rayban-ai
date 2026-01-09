@@ -1,4 +1,4 @@
-package com.turbometa.rayban
+package com.tourmeta.app
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -16,10 +16,10 @@ import androidx.core.content.ContextCompat
 import com.meta.wearable.dat.core.Wearables
 import com.meta.wearable.dat.core.types.Permission
 import com.meta.wearable.dat.core.types.PermissionStatus
-import com.turbometa.rayban.managers.LanguageManager
-import com.turbometa.rayban.ui.navigation.TurboMetaNavigation
-import com.turbometa.rayban.ui.theme.TurboMetaTheme
-import com.turbometa.rayban.viewmodels.WearablesViewModel
+import com.tourmeta.app.managers.LanguageManager
+import com.tourmeta.app.ui.navigation.TurboMetaNavigation
+import com.tourmeta.app.ui.theme.TurboMetaTheme
+import com.tourmeta.app.viewmodels.WearablesViewModel
 import kotlin.coroutines.resume
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine

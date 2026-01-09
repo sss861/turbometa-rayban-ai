@@ -1,4 +1,4 @@
-package com.turbometa.rayban.services
+package com.tourmeta.app.services
 
 import android.Manifest
 import android.app.Notification
@@ -20,8 +20,8 @@ import ai.picovoice.porcupine.PorcupineManagerCallback
 import ai.picovoice.porcupine.PorcupineException
 import android.content.BroadcastReceiver
 import android.content.IntentFilter
-import com.turbometa.rayban.MainActivity
-import com.turbometa.rayban.R
+import com.tourmeta.app.MainActivity
+import com.tourmeta.app.R
 
 /**
  * Porcupine Wake Word Detection Service
@@ -36,12 +36,12 @@ class PorcupineWakeWordService : Service() {
         private const val CHANNEL_ID = "porcupine_wake_word_channel"
 
         // Action for wake word detected broadcast
-        const val ACTION_WAKE_WORD_DETECTED = "com.turbometa.rayban.WAKE_WORD_DETECTED"
+        const val ACTION_WAKE_WORD_DETECTED = "com.tourmeta.app.WAKE_WORD_DETECTED"
         const val EXTRA_KEYWORD_INDEX = "keyword_index"
 
         // Service control actions
-        const val ACTION_START = "com.turbometa.rayban.START_WAKE_WORD"
-        const val ACTION_STOP = "com.turbometa.rayban.STOP_WAKE_WORD"
+        const val ACTION_START = "com.tourmeta.app.START_WAKE_WORD"
+        const val ACTION_STOP = "com.tourmeta.app.STOP_WAKE_WORD"
 
         // Picovoice Access Key - User needs to get this from https://console.picovoice.ai/
         // This should be stored securely (e.g., in EncryptedSharedPreferences)

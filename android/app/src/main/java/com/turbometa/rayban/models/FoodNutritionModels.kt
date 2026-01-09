@@ -1,9 +1,9 @@
-package com.turbometa.rayban.models
+package com.tourmeta.app.models
 
-import com.turbometa.rayban.ui.theme.HealthExcellent
-import com.turbometa.rayban.ui.theme.HealthFair
-import com.turbometa.rayban.ui.theme.HealthGood
-import com.turbometa.rayban.ui.theme.HealthPoor
+import com.tourmeta.app.ui.theme.HealthExcellent
+import com.tourmeta.app.ui.theme.HealthFair
+import com.tourmeta.app.ui.theme.HealthGood
+import com.tourmeta.app.ui.theme.HealthPoor
 import androidx.compose.ui.graphics.Color
 
 data class FoodNutritionResponse(

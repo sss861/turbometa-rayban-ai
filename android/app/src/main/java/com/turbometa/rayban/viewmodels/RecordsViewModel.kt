@@ -1,12 +1,12 @@
-package com.turbometa.rayban.viewmodels
+package com.tourmeta.app.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.turbometa.rayban.data.ConversationStorage
-import com.turbometa.rayban.data.QuickVisionStorage
-import com.turbometa.rayban.models.ConversationRecord
-import com.turbometa.rayban.models.QuickVisionRecord
+import com.tourmeta.app.data.ConversationStorage
+import com.tourmeta.app.data.QuickVisionStorage
+import com.tourmeta.app.models.ConversationRecord
+import com.tourmeta.app.models.QuickVisionRecord
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

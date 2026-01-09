@@ -1,4 +1,4 @@
-package com.turbometa.rayban.services
+package com.tourmeta.app.services
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -12,8 +12,8 @@ import android.util.Base64
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.turbometa.rayban.managers.AlibabaEndpoint
-import com.turbometa.rayban.managers.LiveAIModeManager
+import com.tourmeta.app.managers.AlibabaEndpoint
+import com.tourmeta.app.managers.LiveAIModeManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

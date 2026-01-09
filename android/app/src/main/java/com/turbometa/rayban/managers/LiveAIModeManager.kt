@@ -1,9 +1,9 @@
-package com.turbometa.rayban.managers
+package com.tourmeta.app.managers
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.turbometa.rayban.R
-import com.turbometa.rayban.models.LiveAIMode
+import com.tourmeta.app.R
+import com.tourmeta.app.models.LiveAIMode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

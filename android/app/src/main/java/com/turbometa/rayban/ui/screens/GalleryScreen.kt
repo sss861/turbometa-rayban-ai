@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.screens
+package com.tourmeta.app.ui.screens
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
@@ -35,11 +35,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.turbometa.rayban.R
-import com.turbometa.rayban.data.QuickVisionStorage
-import com.turbometa.rayban.models.QuickVisionRecord
-import com.turbometa.rayban.ui.components.ConfirmDialog
-import com.turbometa.rayban.ui.theme.*
+import com.tourmeta.app.R
+import com.tourmeta.app.data.QuickVisionStorage
+import com.tourmeta.app.models.QuickVisionRecord
+import com.tourmeta.app.ui.components.ConfirmDialog
+import com.tourmeta.app.ui.theme.*
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)

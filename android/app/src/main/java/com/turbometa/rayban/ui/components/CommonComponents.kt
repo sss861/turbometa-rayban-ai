@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.components
+package com.tourmeta.app.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.turbometa.rayban.ui.theme.*
+import com.tourmeta.app.ui.theme.*
 
 @Composable
 fun GradientButton(

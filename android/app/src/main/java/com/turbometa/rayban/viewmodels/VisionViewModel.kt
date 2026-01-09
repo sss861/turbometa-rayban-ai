@@ -1,4 +1,4 @@
-package com.turbometa.rayban.viewmodels
+package com.tourmeta.app.viewmodels
 
 import android.app.Application
 import android.content.ContentValues
@@ -8,9 +8,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.turbometa.rayban.managers.APIProviderManager
-import com.turbometa.rayban.services.VisionAPIService
-import com.turbometa.rayban.utils.APIKeyManager
+import com.tourmeta.app.managers.APIProviderManager
+import com.tourmeta.app.services.VisionAPIService
+import com.tourmeta.app.utils.APIKeyManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -144,7 +144,7 @@ class VisionViewModel(application: Application) : AndroidViewModel(application) 
                 put(MediaStore.Images.Media.DISPLAY_NAME, "Vision_${System.currentTimeMillis()}.jpg")
                 put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/TurboMeta")
+                    put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/TourMeta")
                     put(MediaStore.Images.Media.IS_PENDING, 1)
                 }
             }

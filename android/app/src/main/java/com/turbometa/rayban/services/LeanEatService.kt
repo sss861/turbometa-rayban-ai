@@ -1,11 +1,11 @@
-package com.turbometa.rayban.services
+package com.tourmeta.app.services
 
 import android.graphics.Bitmap
 import android.util.Base64
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.turbometa.rayban.models.FoodItem
-import com.turbometa.rayban.models.FoodNutritionResponse
+import com.tourmeta.app.models.FoodItem
+import com.tourmeta.app.models.FoodNutritionResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType

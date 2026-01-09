@@ -27,7 +27,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
-        android:name=".TurboMetaApplication"
+        android:name="com.tourmeta.app.TurboMetaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -40,7 +40,7 @@
             android:value="0" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.tourmeta.app.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.TurboMeta">
             <intent-filter>
@@ -67,12 +67,12 @@
         </provider>
 
         <service
-            android:name=".services.PorcupineWakeWordService"
+            android:name="com.tourmeta.app.services.PorcupineWakeWordService"
             android:exported="false"
             android:foregroundServiceType="microphone" />
 
         <service
-            android:name=".services.QuickVisionService"
+            android:name="com.tourmeta.app.services.QuickVisionService"
             android:exported="false"
             android:foregroundServiceType="connectedDevice" />
     </application>

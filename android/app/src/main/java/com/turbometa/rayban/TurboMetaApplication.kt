@@ -1,4 +1,4 @@
-package com.turbometa.rayban
+package com.tourmeta.app
 
 import android.app.Application
 

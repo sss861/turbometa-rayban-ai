@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.screens
+package com.tourmeta.app.ui.screens
 
 import android.graphics.Bitmap
 import android.speech.tts.TextToSpeech
@@ -27,14 +27,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.turbometa.rayban.R
-import com.turbometa.rayban.data.QuickVisionStorage
-import com.turbometa.rayban.managers.APIProviderManager
-import com.turbometa.rayban.managers.QuickVisionModeManager
-import com.turbometa.rayban.services.VisionAPIService
-import com.turbometa.rayban.ui.theme.*
-import com.turbometa.rayban.utils.APIKeyManager
-import com.turbometa.rayban.viewmodels.WearablesViewModel
+import com.tourmeta.app.R
+import com.tourmeta.app.data.QuickVisionStorage
+import com.tourmeta.app.managers.APIProviderManager
+import com.tourmeta.app.managers.QuickVisionModeManager
+import com.tourmeta.app.services.VisionAPIService
+import com.tourmeta.app.ui.theme.*
+import com.tourmeta.app.utils.APIKeyManager
+import com.tourmeta.app.viewmodels.WearablesViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale

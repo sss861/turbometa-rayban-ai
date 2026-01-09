@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.screens
+package com.tourmeta.app.ui.screens
 
 import android.graphics.Bitmap
 import androidx.compose.animation.*
@@ -35,13 +35,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.meta.wearable.dat.core.types.Permission
 import com.meta.wearable.dat.core.types.PermissionStatus
-import com.turbometa.rayban.R
-import com.turbometa.rayban.models.ConversationMessage
-import com.turbometa.rayban.models.MessageRole
-import com.turbometa.rayban.ui.components.*
-import com.turbometa.rayban.ui.theme.*
-import com.turbometa.rayban.viewmodels.OmniRealtimeViewModel
-import com.turbometa.rayban.viewmodels.WearablesViewModel
+import com.tourmeta.app.R
+import com.tourmeta.app.models.ConversationMessage
+import com.tourmeta.app.models.MessageRole
+import com.tourmeta.app.ui.components.*
+import com.tourmeta.app.ui.theme.*
+import com.tourmeta.app.viewmodels.OmniRealtimeViewModel
+import com.tourmeta.app.viewmodels.WearablesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

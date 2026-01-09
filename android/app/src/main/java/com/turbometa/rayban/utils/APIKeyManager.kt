@@ -1,12 +1,12 @@
-package com.turbometa.rayban.utils
+package com.tourmeta.app.utils
 
 import android.content.Context
 import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.turbometa.rayban.managers.AlibabaEndpoint
-import com.turbometa.rayban.managers.APIProvider
-import com.turbometa.rayban.managers.APIProviderManager
+import com.tourmeta.app.managers.AlibabaEndpoint
+import com.tourmeta.app.managers.APIProvider
+import com.tourmeta.app.managers.APIProviderManager
 
 /**
  * API Key Manager
@@ -245,7 +245,7 @@ enum class OutputLanguage(val code: String, val displayName: String, val nativeN
 
 // Video quality options
 enum class StreamQuality(val id: String, val displayNameResId: Int, val descriptionResId: Int) {
-    LOW("LOW", com.turbometa.rayban.R.string.quality_low, com.turbometa.rayban.R.string.quality_low_desc),
-    MEDIUM("MEDIUM", com.turbometa.rayban.R.string.quality_medium, com.turbometa.rayban.R.string.quality_medium_desc),
-    HIGH("HIGH", com.turbometa.rayban.R.string.quality_high, com.turbometa.rayban.R.string.quality_high_desc)
+    LOW("LOW", com.tourmeta.app.R.string.quality_low, com.tourmeta.app.R.string.quality_low_desc),
+    MEDIUM("MEDIUM", com.tourmeta.app.R.string.quality_medium, com.tourmeta.app.R.string.quality_medium_desc),
+    HIGH("HIGH", com.tourmeta.app.R.string.quality_high, com.tourmeta.app.R.string.quality_high_desc)
 }

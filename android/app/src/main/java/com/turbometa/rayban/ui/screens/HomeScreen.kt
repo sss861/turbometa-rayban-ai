@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.screens
+package com.tourmeta.app.ui.screens
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -34,10 +34,10 @@ import androidx.compose.ui.unit.sp
 import com.meta.wearable.dat.core.Wearables
 import com.meta.wearable.dat.core.types.Permission
 import com.meta.wearable.dat.core.types.PermissionStatus
-import com.turbometa.rayban.R
-import com.turbometa.rayban.ui.theme.*
-import com.turbometa.rayban.utils.APIKeyManager
-import com.turbometa.rayban.viewmodels.WearablesViewModel
+import com.tourmeta.app.R
+import com.tourmeta.app.ui.theme.*
+import com.tourmeta.app.utils.APIKeyManager
+import com.tourmeta.app.viewmodels.WearablesViewModel
 import kotlinx.coroutines.launch
 
 @Composable

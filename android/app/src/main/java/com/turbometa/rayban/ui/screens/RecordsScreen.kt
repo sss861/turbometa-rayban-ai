@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.screens
+package com.tourmeta.app.ui.screens
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
@@ -26,14 +26,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.turbometa.rayban.R
-import com.turbometa.rayban.models.ConversationRecord
-import com.turbometa.rayban.models.MessageRole
-import com.turbometa.rayban.models.QuickVisionRecord
-import com.turbometa.rayban.ui.components.*
-import com.turbometa.rayban.ui.theme.*
-import com.turbometa.rayban.viewmodels.RecordsTab
-import com.turbometa.rayban.viewmodels.RecordsViewModel
+import com.tourmeta.app.R
+import com.tourmeta.app.models.ConversationRecord
+import com.tourmeta.app.models.MessageRole
+import com.tourmeta.app.models.QuickVisionRecord
+import com.tourmeta.app.ui.components.*
+import com.tourmeta.app.ui.theme.*
+import com.tourmeta.app.viewmodels.RecordsTab
+import com.tourmeta.app.viewmodels.RecordsViewModel
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)

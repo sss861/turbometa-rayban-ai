@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.screens
+package com.tourmeta.app.ui.screens
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
@@ -22,11 +22,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.turbometa.rayban.R
-import com.turbometa.rayban.models.FoodNutritionResponse
-import com.turbometa.rayban.ui.components.*
-import com.turbometa.rayban.ui.theme.*
-import com.turbometa.rayban.viewmodels.LeanEatViewModel
+import com.tourmeta.app.R
+import com.tourmeta.app.models.FoodNutritionResponse
+import com.tourmeta.app.ui.components.*
+import com.tourmeta.app.ui.theme.*
+import com.tourmeta.app.viewmodels.LeanEatViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

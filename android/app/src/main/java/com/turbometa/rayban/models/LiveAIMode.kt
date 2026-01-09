@@ -1,7 +1,7 @@
-package com.turbometa.rayban.models
+package com.tourmeta.app.models
 
 import android.content.Context
-import com.turbometa.rayban.R
+import com.tourmeta.app.R
 
 /**
  * Live AI Modes

@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.screens
+package com.tourmeta.app.ui.screens
 
 import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedVisibility
@@ -25,9 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.turbometa.rayban.ui.theme.AppRadius
-import com.turbometa.rayban.ui.theme.AppSpacing
-import com.turbometa.rayban.viewmodels.WearablesViewModel
+import com.tourmeta.app.ui.theme.AppRadius
+import com.tourmeta.app.ui.theme.AppSpacing
+import com.tourmeta.app.viewmodels.WearablesViewModel
 
 @Composable
 fun SimpleLiveStreamScreen(

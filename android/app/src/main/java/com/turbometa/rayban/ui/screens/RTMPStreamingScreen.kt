@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.screens
+package com.tourmeta.app.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -34,10 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.meta.wearable.dat.camera.types.StreamSessionState
-import com.turbometa.rayban.R
-import com.turbometa.rayban.ui.theme.AppRadius
-import com.turbometa.rayban.ui.theme.AppSpacing
-import com.turbometa.rayban.viewmodels.RTMPStreamingViewModel
+import com.tourmeta.app.R
+import com.tourmeta.app.ui.theme.AppRadius
+import com.tourmeta.app.ui.theme.AppSpacing
+import com.tourmeta.app.viewmodels.RTMPStreamingViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

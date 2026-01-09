@@ -1,10 +1,10 @@
-package com.turbometa.rayban.data
+package com.tourmeta.app.data
 
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.turbometa.rayban.models.ConversationRecord
+import com.tourmeta.app.models.ConversationRecord
 
 class ConversationStorage(context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences(

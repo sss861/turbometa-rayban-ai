@@ -1,4 +1,4 @@
-package com.turbometa.rayban.services
+package com.tourmeta.app.services
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -6,11 +6,11 @@ import android.util.Base64
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.turbometa.rayban.managers.AlibabaEndpoint
-import com.turbometa.rayban.managers.APIProvider
-import com.turbometa.rayban.managers.APIProviderManager
-import com.turbometa.rayban.managers.QuickVisionModeManager
-import com.turbometa.rayban.utils.APIKeyManager
+import com.tourmeta.app.managers.AlibabaEndpoint
+import com.tourmeta.app.managers.APIProvider
+import com.tourmeta.app.managers.APIProviderManager
+import com.tourmeta.app.managers.QuickVisionModeManager
+import com.tourmeta.app.utils.APIKeyManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType

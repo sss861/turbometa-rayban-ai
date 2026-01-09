@@ -1,4 +1,4 @@
-package com.turbometa.rayban.services
+package com.tourmeta.app.services
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -28,12 +28,12 @@ import com.meta.wearable.dat.camera.types.VideoFrame
 import com.meta.wearable.dat.camera.types.VideoQuality
 import com.meta.wearable.dat.core.Wearables
 import com.meta.wearable.dat.core.selectors.AutoDeviceSelector
-import com.turbometa.rayban.MainActivity
-import com.turbometa.rayban.R
-import com.turbometa.rayban.data.QuickVisionStorage
-import com.turbometa.rayban.managers.APIProviderManager
-import com.turbometa.rayban.managers.QuickVisionModeManager
-import com.turbometa.rayban.utils.APIKeyManager
+import com.tourmeta.app.MainActivity
+import com.tourmeta.app.R
+import com.tourmeta.app.data.QuickVisionStorage
+import com.tourmeta.app.managers.APIProviderManager
+import com.tourmeta.app.managers.QuickVisionModeManager
+import com.tourmeta.app.utils.APIKeyManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -63,12 +63,12 @@ class QuickVisionService : Service(), TextToSpeech.OnInitListener {
         private const val CHANNEL_ID = "quick_vision_channel"
 
         // Service actions
-        const val ACTION_CAPTURE_AND_ANALYZE = "com.turbometa.rayban.CAPTURE_AND_ANALYZE"
-        const val ACTION_STOP = "com.turbometa.rayban.STOP_QUICK_VISION"
+        const val ACTION_CAPTURE_AND_ANALYZE = "com.tourmeta.app.CAPTURE_AND_ANALYZE"
+        const val ACTION_STOP = "com.tourmeta.app.STOP_QUICK_VISION"
 
         // Broadcast actions
-        const val ACTION_ANALYSIS_COMPLETE = "com.turbometa.rayban.ANALYSIS_COMPLETE"
-        const val ACTION_QUICK_VISION_STATUS = "com.turbometa.rayban.QUICK_VISION_STATUS"
+        const val ACTION_ANALYSIS_COMPLETE = "com.tourmeta.app.ANALYSIS_COMPLETE"
+        const val ACTION_QUICK_VISION_STATUS = "com.tourmeta.app.QUICK_VISION_STATUS"
         const val EXTRA_RESULT = "analysis_result"
         const val EXTRA_ERROR = "analysis_error"
         const val EXTRA_STATUS = "status"

@@ -1,4 +1,4 @@
-package com.turbometa.rayban.services
+package com.tourmeta.app.services
 
 import android.content.Context
 import android.media.MediaCodec

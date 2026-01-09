@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.screens
+package com.tourmeta.app.ui.screens
 
 import android.Manifest
 import android.app.ActivityManager
@@ -37,22 +37,22 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.turbometa.rayban.R
+import com.tourmeta.app.R
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import com.turbometa.rayban.managers.AlibabaEndpoint
-import com.turbometa.rayban.managers.AlibabaVisionModel
-import com.turbometa.rayban.managers.APIProvider
-import com.turbometa.rayban.managers.AppLanguage
-import com.turbometa.rayban.managers.LiveAIProvider
-import com.turbometa.rayban.managers.OpenRouterModel
-import com.turbometa.rayban.services.PorcupineWakeWordService
-import com.turbometa.rayban.ui.components.*
-import com.turbometa.rayban.ui.theme.*
-import com.turbometa.rayban.utils.AIModel
-import com.turbometa.rayban.utils.OutputLanguage
-import com.turbometa.rayban.utils.StreamQuality
-import com.turbometa.rayban.viewmodels.SettingsViewModel
+import com.tourmeta.app.managers.AlibabaEndpoint
+import com.tourmeta.app.managers.AlibabaVisionModel
+import com.tourmeta.app.managers.APIProvider
+import com.tourmeta.app.managers.AppLanguage
+import com.tourmeta.app.managers.LiveAIProvider
+import com.tourmeta.app.managers.OpenRouterModel
+import com.tourmeta.app.services.PorcupineWakeWordService
+import com.tourmeta.app.ui.components.*
+import com.tourmeta.app.ui.theme.*
+import com.tourmeta.app.utils.AIModel
+import com.tourmeta.app.utils.OutputLanguage
+import com.tourmeta.app.utils.StreamQuality
+import com.tourmeta.app.viewmodels.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.screens
+package com.tourmeta.app.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,12 +19,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.turbometa.rayban.R
-import com.turbometa.rayban.managers.LiveAIModeManager
-import com.turbometa.rayban.managers.QuickVisionModeManager
-import com.turbometa.rayban.models.LiveAIMode
-import com.turbometa.rayban.models.QuickVisionMode
-import com.turbometa.rayban.ui.theme.*
+import com.tourmeta.app.R
+import com.tourmeta.app.managers.LiveAIModeManager
+import com.tourmeta.app.managers.QuickVisionModeManager
+import com.tourmeta.app.models.LiveAIMode
+import com.tourmeta.app.models.QuickVisionMode
+import com.tourmeta.app.ui.theme.*
 
 /**
  * Quick Vision Mode Settings Screen

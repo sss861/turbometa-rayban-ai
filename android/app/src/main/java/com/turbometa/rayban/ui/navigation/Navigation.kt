@@ -1,4 +1,4 @@
-package com.turbometa.rayban.ui.navigation
+package com.tourmeta.app.ui.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -17,10 +17,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.meta.wearable.dat.core.types.Permission
 import com.meta.wearable.dat.core.types.PermissionStatus
-import com.turbometa.rayban.R
-import com.turbometa.rayban.ui.screens.*
-import com.turbometa.rayban.ui.theme.Primary
-import com.turbometa.rayban.viewmodels.WearablesViewModel
+import com.tourmeta.app.R
+import com.tourmeta.app.ui.screens.*
+import com.tourmeta.app.ui.theme.Primary
+import com.tourmeta.app.viewmodels.WearablesViewModel
 
 sealed class Screen(val route: String) {
     object Home : Screen("home")
